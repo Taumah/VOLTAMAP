@@ -41,6 +41,6 @@ jobs:
       runs-on: ubuntu-latest
       steps:
       - name : Install from pip
-        run: python -m pip install -r requirements.txt
+        run: pwd && ll && python -m pip install -r requirements.txt
 
     
