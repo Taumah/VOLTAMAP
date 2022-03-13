@@ -1,8 +1,11 @@
+"""
+This module is used to launch the web Application
+that is designed to display all EVs' chargers placed on France
+"""
 import os
 
 import flask
 from flask import Flask
-from jinja2 import Environment, PackageLoader, select_autoescape
 
 app = Flask(__name__, template_folder=os.path.abspath('ressources/templates/'))
 
