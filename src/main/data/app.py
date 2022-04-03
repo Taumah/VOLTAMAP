@@ -4,6 +4,15 @@
 """
 import requests
 
+
+def empty_array(n):
+    if n < 0:
+        raise ValueError("Length cannot be negative")
+    elif n == 0:
+        return []
+    return [0] * n
+
+
 GOOGLE_API_KEY = "AIzaSyCb9HQGlIFqlL_QaCQh2_vQx6cDtOFai0c"
 
 
@@ -37,3 +46,7 @@ def get_search_details(place_id):
 def main():
     """Main function"""
     get_place_details("ChIJyeCGP7Bl5kcRAKxjPvJs41M")
+
+
+if __name__ == "__main__":
+    main()

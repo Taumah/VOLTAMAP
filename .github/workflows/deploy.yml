@@ -14,5 +14,8 @@ jobs:
         run : python -m pip install -r requirements.txt
       - name : Format Code
         run : black src/main
-      - name: Linting Code
+      - name: Lint Code
         run : pylint src/main/
+#      - name: Test Code
+#        run : pytest src/test/data/test.py ; \
+#              pytest src/test/web_app/test.py
