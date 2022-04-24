@@ -5,12 +5,13 @@
 import requests
 
 
-def empty_array(n):
-    if n < 0:
-        raise ValueError("Length cannot be negative")
-    elif n == 0:
+def empty_array(size):
+    """ returns an array of size <size> filled with zeros """
+    if size == 0:
         return []
-    return [0] * n
+    if size < 0:
+        raise ValueError("Length cannot be negative")
+    return [0] * size
 
 
 GOOGLE_API_KEY = "AIzaSyCb9HQGlIFqlL_QaCQh2_vQx6cDtOFai0c"
