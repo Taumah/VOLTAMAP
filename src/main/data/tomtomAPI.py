@@ -4,44 +4,48 @@ import requests
 
 
 class TomtomAPISearch:
-    """ simplify calls to tomtom API"""
+    """simplify calls to tomtom API"""
 
     def __init__(self):
         self.base_url = "https://api.tomtom.com/search/2/"
         self.key = "NGxlSU04s6PDx4eCnI2sxGhMlAx6Lp2R"
 
     def get_station_data(self, Station):
-        """ get data from specific station"""
-        url = self.base_url + f"chargingAvailability.json?" \
-                              f"key={self.key}&chargingAvailability={Station}"
+        """get data from specific station"""
+        url = (
+            self.base_url + f"chargingAvailability.json?"
+            f"key={self.key}&chargingAvailability={Station}"
+        )
 
         c = requests.get(url)
         return c.json()
 
     def get_station_summary(self, Station):
-        """ get stats from station"""
+        """get stats from station"""
         data = self.get_station_data(Station)
         stations = 0
         available = 0
-        for detail in data['connectors']:
-            stations += detail['total']
-            available += detail['current']['available']
+        for detail in data["connectors"]:
+            stations += detail["total"]
+            available += detail["current"]["available"]
 
         return f"{available} stations out of {stations}"
 
     def get_ids_around(self):
-        """ retrieve Ids of stations around current position"""
+        """retrieve Ids of stations around current position"""
         ids = []
         query = "Electric Vehicle Charging Station"
         #  get lat and lon from app/website
-        url = self.base_url + f"poiSearch/{query}.json?" \
-                              f"key={self.key}&typehead=true" \
-                              f"&countrySet=FR&limit=5&ofs=0&limit=5&" \
-                              f"ofs=0&lat=48.977890&lon=2.049340" \
-                              f"&radius=1000&categoryset=7309"
+        url = (
+            self.base_url + f"poiSearch/{query}.json?"
+            f"key={self.key}&typehead=true"
+            f"&countrySet=FR&limit=5&ofs=0&limit=5&"
+            f"ofs=0&lat=48.977890&lon=2.049340"
+            f"&radius=1000&categoryset=7309"
+        )
         data = requests.get(url)
-        for item in data.json()['results']:
-            ids.append(item['id'])
+        for item in data.json()["results"]:
+            ids.append(item["id"])
         return ids
 
 

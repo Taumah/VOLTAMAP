@@ -6,7 +6,7 @@ import requests
 
 
 def empty_array(size):
-    """ returns an array of size <size> filled with zeros """
+    """returns an array of size <size> filled with zeros"""
     if size == 0:
         return []
     if size < 0:
