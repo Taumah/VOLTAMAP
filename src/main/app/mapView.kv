@@ -1,0 +1,16 @@
+#:import MapView kivy_garden.mapview.MapView
+
+
+MapView:
+    lat: 48.86536407470703
+    lon: 2.3427209854125977
+    zoom: 10
+    double_tap_zoom: True
+    MapMarkerPopup:
+        source: "image/custom_marker.png"
+        lat: 48.86536407470703
+        lon: 2.3427209854125977
+        size: 50, 100
+        Button:
+            on_release:
+                print("Hey")
