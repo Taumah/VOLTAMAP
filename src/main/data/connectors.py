@@ -28,7 +28,8 @@ class RDSconnector:
     def execute_query(self, query):
         """launch RDS query"""
         with self.connection.cursor() as cur:
-            cur.execute(query)
+            return cur.execute(query)
+
             # except Exception as error:
             #     print("[ERROR]", error)
 
@@ -39,4 +40,6 @@ class RDSconnector:
 
 if __name__ == "__main__":
     conn = RDSconnector("../../../conf.json")
-    conn.execute_query("show tables")
+    print(conn.execute_query("show tables"))
+    # print(conn.execute_query("show tables"))
+

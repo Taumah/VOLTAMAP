@@ -7,7 +7,7 @@
     "RDSconf" : {
         "host" : "pa4a.cca9akw9bbde.eu-west-3.rds.amazonaws.com",
         "user" : "admin",
-        "password" : "PA4Apassword",
-        "database" : "PA4A"
+        "password" : "pa4aesgi",
+        "database" : "pa4a"
     }
 }
