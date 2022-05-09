@@ -1,0 +1,9 @@
+#:import MapView kivy_garden.mapview.MapView
+
+<HomeMapView>:
+    lat: 1.304833
+    lon: 103.831833
+    zoom: 12
+    double_tap_zoom: True
+    on_zoom:
+        self.zoom = 12 if self.zoom < 12 else self.zoom # set minimum zoom = 12
