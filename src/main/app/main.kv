@@ -1,8 +1,8 @@
-#:include homescreen.kv
+#:include kv/homescreen.kv
 
 Screen:
-    NavigationLayout :
-        ScreenManager :
+    MDNavigationLayout:
+        ScreenManager:
             id: screen_manager
             size_hint: 1, 1
             pos_hint: {"top": 1, "left": 1}

@@ -2,81 +2,64 @@
 #:include homemapview.kv
 
 <HomeScreen>:
-    FloatLayout:
+    MDBoxLayout:
+        orientation : "vertical"
+        md_bg_color: 1, 1, 1, 1
         MDToolbar:
-            title: "Where are you going today?"
-            right_action_items: [['magnify', lambda x: app.search_menu.open()]]
+            title: "ToolBar"
+            left_action_items: [["menu" , lambda x : print("Menu button is pressed")]]
+            #right_action_items: [["magnify", lambda x: app.search_menu.open()]]
+            right_action_items: [["magnify", lambda x: print("Search button is clicked")]]
             md_bg_color: app.theme_cls.primary_light
-            pos_hint: {"top": .895, "left": 1}
+            #pos_hint: {"top": .895, "left": 1}
             size_hint: 1, .1
         HomeMapView:
             pos_hint: {"top": .795, "left": 1}
             size_hint: 1, .695
             id: mapview
-        GridLayout:
-            rows: 1
-            size_hint: 1, .1
-            pos_hint: {"top": .1, "right": 1}
-            LabelButton:
-                text: "[u]Taxi[/u]"
-                canvas.before:
-                    Color:
-                        rgb: app.theme_cls.primary_color if self.state == 'normal' else utils.get_color_from_hex("#6C5B7B")
-                    Rectangle:
-                        size: self.size
-                        pos: self.pos
-                markup: True
-                on_release:
-                    app.change_screen("taxi_screen", direction='right', mode='push')
-            LabelButton:
-                text: "[u]Bus[/u]"
-                canvas.before:
-                    Color:
-                        rgb: app.theme_cls.primary_color if self.state == 'normal' else utils.get_color_from_hex("#6C5B7B")
-                    Rectangle:
-                        size: self.size
-                        pos: self.pos
-                #size_hint: .33, .1
-                #pos_hint: {"top": .1, "right": .666}
-                markup: True
-                on_release:
-                    app.change_screen("bus_stop_screen", direction='up', mode='push')
-            LabelButton:
-                text: "[u]MRT/LRT[/u]"
-                canvas.before:
-                    Color:
-                        rgb: app.theme_cls.primary_color if self.state == 'normal' else utils.get_color_from_hex("#6C5B7B")
-                    Rectangle:
-                        size: self.size
-                        pos: self.pos
-                #size_hint: .33, .1
-                #pos_hint: {"top": .1, "right": 1}
-                markup: True
-                on_release:
-                    app.change_screen("mrtlrt_screen", direction='down', mode='push')
-            LabelButton:
-                text: "[u]Traffic[/u]"
-                canvas.before:
-                    Color:
-                        rgb: app.theme_cls.primary_color if self.state == 'normal' else utils.get_color_from_hex("#6C5B7B")
-                    Rectangle:
-                        size: self.size
-                        pos: self.pos
-                #size_hint: .33, .1
-                #pos_hint: {"top": .1, "right": 1}
-                markup: True
-                on_release:
-                    app.change_screen("incidents_screen", direction='up', mode='push')
-            LabelButton:
-                text: "[u]Parking[/u]"
-                canvas.before:
-                    Color:
-                        rgb: app.theme_cls.primary_color if self.state == 'normal' else utils.get_color_from_hex("#6C5B7B")
-                    Rectangle:
-                        size: self.size
-                        pos: self.pos
-                #size_hint: .33, .1
-                #pos_hint: {"top": .1, "right": 1}
-                markup: True
-                on_release:
-                    app.change_screen("carpark_screen", direction='left', mode='push')
+        NavBar:
+            id: navbar
+            size_hint: .85, .05
+            pos_hint: {"center_x": .5, "center_y": .1}
+            elevation: 10
+            md_bg_color: 1,1,1,1
+            radius: [16]
+            width: self.width
+            MDGridLayout:
+                cols: 4
+                size_hint_x: .9
+                spacing : 8
+                pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                AnchorLayout:
+                    MDIconButton:
+                        id: nav_icon1
+                        icon: "map"
+                        ripple_scale: 0
+                        user_font_size: "30sp"
+                        theme_text_color: "Custom"
+                        text_color: 0, 0, 0, 1
+                AnchorLayout:
+                    MDIconButton:
+                        id: nav_icon2
+                        icon: "transit-connection-variant"
+                        ripple_scale: 0
+                        user_font_size: "30sp"
+                        theme_text_color: "Custom"
+                        text_color: 0, 0, 0, 1
+                AnchorLayout:
+                    MDIconButton:
+                        id: nav_icon3
+                        icon: "account-group"
+                        ripple_scale: 0
+                        user_font_size: "30sp"
+                        theme_text_color: "Custom"
+                        text_color: 0, 0, 0, 1
+                AnchorLayout:
+                    MDIconButton:
+                        id: nav_icon4
+                        icon: "account"
+                        ripple_scale: 0
+                        user_font_size: "30sp"
+                        theme_text_color: "Custom"
+                        text_color: 0, 0, 0, 1
+
