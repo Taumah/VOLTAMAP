@@ -2,19 +2,16 @@ from kivymd.app import MDApp
 from kivy.core.window import Window
 from kivymd.uix.behaviors import FakeRectangularElevationBehavior
 from kivymd.uix.boxlayout import MDBoxLayout
+from kivy.uix.screenmanager import Screen, NoTransition, CardTransition
 
 from homemapview import HomeMapView
-
-from specialbuttons import LabelButton, ImageButton
-from kivy.uix.screenmanager import Screen, NoTransition, CardTransition
+from gpshelper import GpsHelper
 
 Window.size = (500, 500)
 
 
 class NavBar(FakeRectangularElevationBehavior, MDBoxLayout):
     pass
-
-
 
 class HomeScreen(Screen):
     pass
@@ -30,5 +27,6 @@ class MainApp(MDApp):
         self.theme_cls.primary_hue = "500"
         self.theme_cls.theme_style = "Light"
 
+        GpsHelper().run()
 
 MainApp().run()
