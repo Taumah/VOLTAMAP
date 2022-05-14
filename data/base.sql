@@ -4,4 +4,4 @@ create table stationID(
     longitude double not null,
     googleID varchar(50),
     tomtomID varchar(50)
-)
+);

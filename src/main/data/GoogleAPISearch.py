@@ -1,5 +1,6 @@
 """ class GoogleAPISearch """
 # pylint: disable=C0103
+import geocoder
 import requests
 
 
@@ -13,9 +14,9 @@ class GoogleAPISearch:
     def get_station_data(self):
         """get data from specific station"""
         url = (
-            self.base_url + "/details/json?place_id=ChIJN1t_tDeuEmsRUsoyG83frY4&"
-            "fields=name%2Crating%2Cformatted_phone_number"
-            "&key=" + self.key
+                self.base_url + "/details/json?place_id=ChIJN1t_tDeuEmsRUsoyG83frY4&"
+                                "fields=name%2Crating%2Cformatted_phone_number"
+                                "&key=" + self.key
         )
 
         payload = {}
@@ -25,12 +26,21 @@ class GoogleAPISearch:
 
         print(response.text)
 
-    def get_nearby_station(self):
-        """retrieve stations around current position"""
+    def get_nearby_station(self, lat=None, lon=None):
+        """ retrieve stations around current position
+            If no localisation given, it returns stations
+            around current position"""
+        # lat, lon = '48.97472824016118', '2.0494848456340353'
+        g = geocoder.ip('me')
+        if not lat:
+            lat = g.latlng[0]
+        if not lon:
+            lon = g.latlng[1]
+        loc = f"{lat}%2C{lon}"
         url = (
-            self.base_url
-            + "/nearbysearch/json?location=48.97472824016118%2C2.0494848456340353"
-            "&radius=5000&keyword=charging electric vehicule station&key=" + self.key
+                self.base_url
+                + f"/nearbysearch/json?location={loc}"
+                  "&radius=5000&keyword=charging electric vehicule station&key=" + self.key
         )
 
         payload = {}
@@ -38,10 +48,9 @@ class GoogleAPISearch:
 
         response = requests.request("GET", url, headers=headers, data=payload)
 
-        print(response.text)
+        return response.text
 
 
 if __name__ == "__main__":
-    search = GoogleAPISearch()
-
-    search.get_nearby_station()
+    g = geocoder.ip('me')
+    print(g.latlng)

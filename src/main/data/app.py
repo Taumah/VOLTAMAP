@@ -2,51 +2,43 @@
     This file contains the main function,
     used for the whole project
 """
-import requests
+import json
+
+import pandas
+
+from main.data.GoogleAPISearch import GoogleAPISearch
+from main.data.connectors import RDSconnector
 
 
-def empty_array(size):
-    """returns an array of size <size> filled with zeros"""
-    if size == 0:
-        return []
-    if size < 0:
-        raise ValueError("Length cannot be negative")
-    return [0] * size
-
-
-GOOGLE_API_KEY = "AIzaSyCb9HQGlIFqlL_QaCQh2_vQx6cDtOFai0c"
-
-
-def get_place_details(place_id):
-    """performs a Get request on Google Places API"""
-    url = (
-        f"https://maps.googleapis.com/maps/api/place/details/"
-        f"json?place_id={place_id}&"
-        f"key={GOOGLE_API_KEY}"
-    )
-    payload = {}
-    headers = {}
-    response = requests.request("GET", url, headers=headers, data=payload)
-    print(response.text)
-
-
-def get_search_details(place_id):
-    """get all infos from place given as param"""
-
-    url = (
-        f"https://maps.googleapis.com/maps/api/place/details/"
-        f"json?place_id={place_id}&"
-        f"key={GOOGLE_API_KEY}"
-    )
-    payload = {}
-    headers = {}
-    response = requests.request("GET", url, headers=headers, data=payload)
-    print(response.text)
+# GOOGLE_API_KEY = "AIzaSyCb9HQGlIFqlL_QaCQh2_vQx6cDtOFai0c"
 
 
 def main():
     """Main function"""
-    get_place_details("ChIJyeCGP7Bl5kcRAKxjPvJs41M")
+    conn = RDSconnector("../../../conf.json")
+    alreadyKnown = pandas.DataFrame(
+        data=conn.execute_select("select id , latitude, longitude , googleID from stationID"),
+        columns=["id", "latitude", "longitude", "googleID"])
+
+    GoogleAPI = GoogleAPISearch()
+    nearby = json.loads(GoogleAPI.get_nearby_station())
+
+    # print("test1" in alreadyKnown['googleID'].to_numpy())
+    #
+    for station in nearby['results']:
+
+        if station['place_id'] in alreadyKnown['googleID'].to_numpy():
+            print(f"{station['place_id']} already known")
+        else:
+            print(f"inserting {station['place_id']}")
+            lat = station["geometry"]["location"]["lat"]
+            lng = station["geometry"]["location"]["lng"]
+            conn.execute_insert(
+                "insert into stationID(id , latitude, longitude , googleID) "
+                f"values(null,'{lat}','{lng}','{station['place_id']}')")
+
+    print(alreadyKnown)
+    print(nearby)
 
 
 if __name__ == "__main__":
