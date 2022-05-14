@@ -23,15 +23,18 @@ class RDSconnector:
         except (FileNotFoundError, FileNotFoundError) as error:
             print("error while reading file : ", error)
             sys.exit()
-        print("end ! ")
+        print("end !")
 
     def execute_query(self, query):
         """launch RDS query"""
-        with self.connection.cursor() as cur:
-            return cur.execute(query)
-
-            # except Exception as error:
-            #     print("[ERROR]", error)
+        try:
+            with self.connection.cursor() as cur:
+                cur.execute(query)
+                rows = cur.fetchall()
+                for row in rows:
+                    print(row)
+        except Exception as error:
+            print("[ERROR]", error)
 
     def define_bucket(self, bucket_name):
         """set bucket to use... delete later"""
@@ -40,6 +43,7 @@ class RDSconnector:
 
 if __name__ == "__main__":
     conn = RDSconnector("../../../conf.json")
-    print(conn.execute_query("show tables"))
+    #print(conn.execute_query("show tables"))
     # print(conn.execute_query("show tables"))
+    print(conn.execute_query("Select * from stationID"))
 

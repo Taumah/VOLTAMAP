@@ -6,9 +6,13 @@
     lat: 46.227638
     lon: 2.213749
     zoom: 5
+    on_zoom:
+        self.zoom = 5 if self.zoom < 5 else self.zoom
     double_tap_zoom: True
-    #on_zoom:
-    #    self.zoom = 12 if self.zoom < 12 else self.zoom # set minimum zoom = 12
+    on_lat:
+        self.start_getting_markets_in_fov()
+    on_lon:
+        self.start_getting_markets_in_fov()
     GpsBlinker:
         lat: root.lat
         lon: root.lon
