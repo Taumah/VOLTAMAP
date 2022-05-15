@@ -6,12 +6,12 @@ import pymysql
 
 class RDSconnector:
     """object to execute queries on RDS"""
+    cursor = None
 
     def __init__(self, path_to_conf_file):
         self.bucket_name = None
         try:
             with open(path_to_conf_file, "r", encoding="UTF-8") as file:
-
                 conf = json.load(file)
                 host = conf["RDSconf"]["host"]  # RDS URL
                 user = conf["RDSconf"]["user"]  # RDS Mysql user
@@ -20,6 +20,7 @@ class RDSconnector:
                 self.connection = pymysql.connect(
                     host=host, user=user, password=password, database=database
                 )
+                self.cursor = self.connection.cursor()
         except (FileNotFoundError, FileNotFoundError) as error:
             print("error while reading file : ", error)
             sys.exit()
@@ -43,7 +44,10 @@ class RDSconnector:
 
 if __name__ == "__main__":
     conn = RDSconnector("../../../conf.json")
-    #print(conn.execute_query("show tables"))
+    columns = "stationID"
+
+    print(conn.execute_query("show tables"))
     # print(conn.execute_query("show tables"))
-    print(conn.execute_query("Select * from stationID"))
+    print(conn.execute_query(f"SHOW COLUMNS FROM {columns}; "))
+    print(conn.execute_query(f"Select * from {columns};"))
 

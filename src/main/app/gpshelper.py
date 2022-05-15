@@ -1,6 +1,6 @@
 from kivy.app import App
-from kivy.utils import platform
 from kivymd.uix.dialog import MDDialog
+from kivy.utils import platform
 
 
 class GpsHelper():
@@ -14,7 +14,8 @@ class GpsHelper():
 
         # Request permissions on Android
         if platform == 'android':
-            from android import Permission, request_permissions
+            from android import request_permissions, Permission
+
             def callback(permission, results):
                 if all([res for res in results]):
                     print("Got all permissions")

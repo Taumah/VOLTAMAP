@@ -6,6 +6,7 @@ from marketmarker import MarketMarker
 
 class HomeMapView(MapView):
     getting_markets_timer = None
+    market_names = []
 
     def start_getting_markets_in_fov(self):
         # After one second, get the markets in the field of view
@@ -20,19 +21,27 @@ class HomeMapView(MapView):
         # Get reference to main app and the database cursor
         min_lat, min_lon, max_lat, max_lon = self.get_bbox()
         app = App.get_running_app()
-        sql_statement = "SELECT * FROM stationID WHERE x > %s AND x < %s AND y > %s AND y < %s " % \
-                        (min_lon, max_lon, min_lat, max_lat)
-        app.execute(sql_statement)
+        sql_statement = "SELECT * FROM stationID WHERE longitude > %s AND longitude < %s AND latitude > %s AND latitude < %s " % (
+        min_lon, max_lon, min_lat, max_lat)
+        app.cursor.execute(sql_statement)
         markets = app.cursor.fetchall()
         print(markets)
+        print("---------------")
         for market in markets:
-            self.add_market(market)
+            id = market[1]
+            if id in self.market_names:
+                continue
+            else:
+                self.add_market(market)
 
     def add_market(self, market):
-        # Create Marker
+        # Create the MarketMarker
         lat, lon = market[1], market[2]
-        marker = MarketMarker(lat= lat, long=lon)
+        marker = MarketMarker(lat=lat, lon=lon)
 
-        # Add the marker to the map
+        # Add the MarketMarker to the map
         self.add_widget(marker)
 
+        # Keep track of the marker's name
+        id = market[0]
+        self.market_names.append(id)
