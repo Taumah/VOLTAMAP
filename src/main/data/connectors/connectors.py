@@ -37,7 +37,7 @@ class RDSconnector:
 
     def execute_insert(self, query):
         with self.connection.cursor() as cur:
-            status=cur.execute(query) != 0
+            status = cur.execute(query) != 0
 
             self.connection.commit()
             return status
@@ -48,8 +48,7 @@ class RDSconnector:
 
 
 if __name__ == "__main__":
-    conn = RDSconnector("../../../conf.json")
+    conn = RDSconnector("../../../../conf.json")
     print(conn.execute_select("select id , latitude, longitude from stationID"))
 
     # print(conn.execute_query("describe stationID"))
-
