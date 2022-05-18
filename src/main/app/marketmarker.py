@@ -1,10 +1,17 @@
-from kivy_garden.mapview import MapMarkerPopup, MapMarker, MapView
+from kivy_garden.mapview import MapMarkerPopup
 from kivy.properties import NumericProperty
 
 
 class MarketMarker(MapMarkerPopup):
-    source = "image/custom_marker.png"
-    size_hint = (150,150)
+    lat = float
+    lon = float
+
+    def __init__(self, lat, lon, **kwargs):
+        super().__init__(**kwargs)
+        self.lat = lat
+        self.lon = lon
+        self.source = "./image/custom_marker.png"
+        self.texture_size = (25, 25)
 
     def on_release(self):
         pass
