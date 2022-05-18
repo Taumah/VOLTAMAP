@@ -44,10 +44,10 @@ class RDSconnector:
 
 if __name__ == "__main__":
     conn = RDSconnector("../../../conf.json")
-    columns = "stationID"
+    database = "stationID"
 
     print(conn.execute_query("show tables"))
     # print(conn.execute_query("show tables"))
-    print(conn.execute_query(f"SHOW COLUMNS FROM {columns}; "))
-    print(conn.execute_query(f"Select * from {columns};"))
+    print(conn.execute_query(f"SHOW COLUMNS FROM {database}; "))
+    print(conn.execute_query(f"Select * from {database};"))
 
