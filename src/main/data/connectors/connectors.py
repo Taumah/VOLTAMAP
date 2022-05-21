@@ -7,8 +7,8 @@ import pymysql
 class RDSconnector:
     """object to execute queries on RDS"""
 
-    # todo : possible swap from query var to set of : table + column + where (select)
-    # todo : possible swap from query var to set of : table + column + values (insert)
+    # LATERtodo : possible swap from query var to set of : table + column + where (select)
+    # LATERtodo : possible swap from query var to set of : table + column + values (insert)
     def __init__(self, path_to_conf_file):
         self.bucket_name = None
         try:
@@ -19,23 +19,23 @@ class RDSconnector:
                 user = conf["RDSconf"]["user"]  # RDS Mysql user
                 password = conf["RDSconf"]["password"]  # RDS Mysql password
                 database = conf["RDSconf"]["database"]  # RDS MySQL DB name
-                self.connection = pymysql.connect(host=host, user=user, password=password, database=database)
+                self.connection = pymysql.connect(
+                    host=host, user=user, password=password, database=database
+                )
         except (FileNotFoundError, FileNotFoundError) as error:
             print("error while reading file : ", error)
             sys.exit()
         print("end ! ")
 
     def execute_select(self, query):
-        """launch RDS query"""
+        """launch RDS SELECT query"""
         with self.connection.cursor() as cur:
-            try:
-                cur.execute(query)
-            except Exception as error:
-                print("[ERROR]", error)
+            cur.execute(query)
 
             return cur.fetchall()
 
     def execute_insert(self, query):
+        "Execute any INSERT query using connector"
         with self.connection.cursor() as cur:
             status = cur.execute(query) != 0
 
