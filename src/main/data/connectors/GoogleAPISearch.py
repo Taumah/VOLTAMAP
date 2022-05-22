@@ -31,11 +31,11 @@ class GoogleAPISearch:
         If no localisation given, it returns stations
         around current position"""
         # lat, lon = '48.97472824016118', '2.0494848456340353'
-        g = geocoder.ip("me")
-        if not lat:
+        if not lat or not lon:
+            g = geocoder.ip("me")
             lat = g.latlng[0]
-        if not lon:
             lon = g.latlng[1]
+
         loc = f"{lat}%2C{lon}"
         url = (
             self.base_url + f"/nearbysearch/json?location={loc}"

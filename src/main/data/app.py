@@ -13,12 +13,30 @@ from main.data.connectors.connectors import RDSconnector
 # GOOGLE_API_KEY = "AIzaSyCb9HQGlIFqlL_QaCQh2_vQx6cDtOFai0c"
 
 
-def grid_fetch():
+def update_checkpoint(string, target_table):
+    with open(
+            f"./checkpoint/{target_table}/fetch_grid.json", "w", encoding="utf-8"
+    ) as file:
+        json.dump(
+            string,
+            fp=file,
+            indent=4,
+            separators=(", ", ": "),
+            sort_keys=True,
+        )
+
+
+def grid_fetch(target_table):
     """read checkpoint file to move x and y cursor along France (GPS)"""
-    with open("./checkpoint/fetch_grid.json", "r", encoding="utf-8") as file:
+    conn = RDSconnector("../../../conf.json")
+
+    with open(f"./checkpoint/{target_table}/fetch_grid.json", "r", encoding="utf-8") as file:
         string = json.load(file)
     bounding_box = (
-        (string["coordinates"]["dest"]["lat"], string["coordinates"]["dest"]["lon"]),
+        (
+            string["coordinates"]["dest"]["lat"],
+            string["coordinates"]["dest"]["lon"]
+        ),
         (
             string["coordinates"]["current"]["lat"],
             string["coordinates"]["current"]["lon"],
@@ -35,36 +53,33 @@ def grid_fetch():
         (bounding_box[0][1] - string["coordinates"]["origin"]["lon"]) / height
     )
 
-    print(width_steps, height_steps)
-    origin_insert_count = insert_count = 60
-    for x_coord in range(bounding_box[1][0], bounding_box[0][0], width_steps):
-        for y_coord in range(bounding_box[1][1], bounding_box[0][1], height_steps):
-            print(x_coord / precision, y_coord / precision)
-            # coordinates_insert(x / precision, y / precision)
+    origin_insert_count = insert_count = 1500
+
+    while string["coordinates"]["current"]["lon"] > string["coordinates"]["dest"]["lon"]:
+        while string["coordinates"]["current"]["lat"] < string["coordinates"]["dest"]["lat"]:
+            print(string["coordinates"]["current"]["lon"], string["coordinates"]["current"]["lat"])
             insert_count -= 1
+            coordinates_insert(conn, string["coordinates"]["current"]["lat"] / precision,
+                               string["coordinates"]["current"]["lon"] / precision, target_table)
+            update_checkpoint(string, target_table)
+            string["coordinates"]["current"]["lat"] += width_steps
+
             if insert_count == 0:
-                string["coordinates"]["current"]["lat"] = x_coord
-                string["coordinates"]["current"]["lon"] = y_coord
                 string["total_inserts"] += origin_insert_count
-                with open(
-                    "./checkpoint/fetch_grid.json", "w", encoding="utf-8"
-                ) as file:
-                    json.dump(
-                        string,
-                        fp=file,
-                        indent=4,
-                        separators=(", ", ": "),
-                        sort_keys=True,
-                    )
+                update_checkpoint(string, target_table)
                 return
 
+        string["coordinates"]["current"]["lon"] += height_steps
+        string["coordinates"]["current"]["lat"] = string["coordinates"]["origin"]["lat"]
+    string["total_inserts"] += origin_insert_count - insert_count
+    update_checkpoint(string, target_table)
 
-def coordinates_insert(lat=None, lon=None):
+
+def coordinates_insert(conn , lat, lon, table):
     """Writes line to RDS db"""
-    conn = RDSconnector("../../../conf.json")
     already_known = pandas.DataFrame(
         data=conn.execute_select(
-            "select id , api_id, latitude, longitude, insert_time  from stz_googleAPI"
+            f"select id , api_id, latitude, longitude, insert_time  from stz_{table}"
         ),
         columns=["id", "api_id", "latitude", "longitude", "insert_time"],
     )
@@ -83,7 +98,7 @@ def coordinates_insert(lat=None, lon=None):
             lat = station["geometry"]["location"]["lat"]
             lng = station["geometry"]["location"]["lng"]
             conn.execute_insert(
-                "insert into stz_googleAPI(id, api_id , latitude, longitude) "
+                f"insert into stz_{table}(id, api_id , latitude, longitude) "
                 f"values(null,'{station['place_id']}','{lat}','{lng}')"
             )
 
@@ -94,7 +109,8 @@ def coordinates_insert(lat=None, lon=None):
 def main():
     """Main function"""
     # coordinates_insert()
-    grid_fetch()
+    grid_fetch("googleAPI")
+    # grid_fetch("tomtomAPI")
 
 
 if __name__ == "__main__":
