@@ -21,12 +21,12 @@ class HomeMapView(MapView):
         # Get reference to main app and the database cursor
         min_lat, min_lon, max_lat, max_lon = self.get_bbox()
         app = App.get_running_app()
-        sql_statement = "SELECT * FROM stationID WHERE longitude > %s AND longitude < %s AND latitude > %s AND latitude < %s " % (
+        sql_statement = "SELECT * FROM stz_googleAPI WHERE longitude > %s AND longitude < %s AND latitude > %s AND latitude < %s " % (
         min_lon, max_lon, min_lat, max_lat)
         app.cursor.execute(sql_statement)
         markets = app.cursor.fetchall()
-        print(markets)
-        print("---------------")
+        #print(markets)
+        #print("---------------")
         for market in markets:
             id = market[1]
             if id in self.market_names:
@@ -36,13 +36,12 @@ class HomeMapView(MapView):
 
     def add_market(self, market):
         # Create the MarketMarker
-        lat, lon = market[1], market[2]
+        lat, lon = market[2], market[3]
         marker = MarketMarker(lat = lat, lon = lon)
 
         # Add the MarketMarker to the map
         self.add_widget(marker)
 
-
         # Keep track of the marker's name
-        id = market[0]
+        id = market[2]
         self.market_names.append(id)
