@@ -3,3 +3,4 @@
 **/*.py[co]
 **/.pytest_cache
 **/.DS_Store
+src/main/app/mapView.*
