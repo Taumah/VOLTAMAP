@@ -53,7 +53,7 @@ def grid_fetch(target_table):
         (bounding_box[0][1] - string["coordinates"]["origin"]["lon"]) / height
     )
 
-    origin_insert_count = insert_count = 1500
+    origin_insert_count = insert_count = 3800
 
     while string["coordinates"]["current"]["lon"] > string["coordinates"]["dest"]["lon"]:
         while string["coordinates"]["current"]["lat"] < string["coordinates"]["dest"]["lat"]:

@@ -1,5 +1,6 @@
 """ class TomtomAPISearch """
 # pylint: disable=C0103
+import geocoder
 import requests
 
 
@@ -31,16 +32,22 @@ class TomtomAPISearch:
 
         return f"{available} stations out of {stations}"
 
-    def get_ids_around(self):
+    def get_ids_around(self , lat = None , lon = None):
         """retrieve Ids of stations around current position"""
         ids = []
         query = "Electric Vehicle Charging Station"
         #  get lat and lon from app/website
+
+        if lat is None or lon is None:
+            g = geocoder.ip("me")
+            lat = g.latlng[0]
+            lon = g.latlng[1]
+
         url = (
             self.base_url + f"poiSearch/{query}.json?"
             f"key={self.key}&typehead=true"
             f"&countrySet=FR&limit=5&ofs=0&limit=5&"
-            f"ofs=0&lat=48.977890&lon=2.049340"
+            f"ofs=0&lat={lat}&lon={lon}"
             f"&radius=1000&categoryset=7309"
         )
         data = requests.get(url)
