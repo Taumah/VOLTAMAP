@@ -60,12 +60,12 @@ class RDSconnector:
 
 
 if __name__ == "__main__":
-    conn = RDSconnector("../../../conf.json")
+    conn = RDSconnector("../../../../conf.json")
     # database = "stationID"
 
     print(conn.execute_query("show tables"))
     # print(conn.execute_query("show tables"))
-    print(conn.execute_query(f"SHOW COLUMNS FROM {conn.database}; "))
-    print(conn.execute_query(f"Select * from {conn.database};"))
+    #print(conn.execute_query(f"SHOW COLUMNS FROM {conn.database}; "))
+    print(conn.execute_query(f"Select * from {conn.database}.stz_googleAPI;"))
 
     # print(conn.execute_query("describe stationID"))
