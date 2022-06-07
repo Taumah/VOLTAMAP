@@ -14,6 +14,9 @@ from main.data.connectors.connectors import RDSconnector
 
 
 def update_checkpoint(string, target_table):
+    """
+    update checkpoint
+    """
     with open(
             f"./checkpoint/{target_table}/fetch_grid.json", "w", encoding="utf-8"
     ) as file:
