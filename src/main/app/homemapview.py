@@ -10,6 +10,7 @@ from marketmarker import MarketMarker
 
 class HomeMapView(MapView):
     """Home Map View"""
+
     getting_markets_timer = None
     market_names = []
 
@@ -24,7 +25,7 @@ class HomeMapView(MapView):
         self.getting_markets_timer = Clock.schedule_once(self.get_markets_in_fov, 1)
 
     def get_markets_in_fov(self):
-        """ display marker depending on zoom state"""
+        """display marker depending on zoom state"""
         # Get reference to main app and the database cursor
         min_lat, min_lon, max_lat, max_lon = self.get_bbox()
         app = App.get_running_app()
@@ -32,7 +33,6 @@ class HomeMapView(MapView):
             "SELECT * FROM stz_googleAPI "
             f"WHERE longitude > {min_lon} AND longitude < {max_lon} AND latitude > {min_lat} "
             f"AND latitude < {max_lat} "
-
         )
         app.cursor.execute(sql_statement)
         markers = app.cursor.fetchall()

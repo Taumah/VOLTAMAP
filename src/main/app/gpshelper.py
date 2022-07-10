@@ -27,6 +27,7 @@ def open_gps_access_popup():
 
 class GpsHelper:
     """Gps Helper Class"""
+
     has_centered_map = False
 
     def run(self):

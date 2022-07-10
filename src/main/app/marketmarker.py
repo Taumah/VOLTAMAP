@@ -4,6 +4,7 @@
 from locationpopupmenu import LocationPopupMenu
 from kivy_garden.mapview import MapMarkerPopup
 
+
 class MarketMarker(MapMarkerPopup):
     """Place marker on screen"""
 

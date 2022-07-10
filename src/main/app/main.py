@@ -1,6 +1,7 @@
 """Required Docstring"""
 # pylint: disable=import-error
 from kivy.core.window import Window
+
 # Kivy
 from kivy.uix.screenmanager import Screen
 from kivymd.app import MDApp
