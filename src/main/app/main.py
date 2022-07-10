@@ -8,7 +8,7 @@ from kivymd.uix.boxlayout import MDBoxLayout
 # Class
 from homemapview import HomeMapView
 from gpshelper import GpsHelper
-from src.main.data.connectors import RDSconnector
+from src.main.data.connectors.connectors import RDSconnector
 
 #  SQl
 import pymysql
@@ -25,8 +25,6 @@ class HomeScreen(Screen):
 
 
 class MainApp(MDApp):
-    current_lat = 46.227638
-    current_lon = 2.213749
     connection = None
 
     def on_start(self):
@@ -41,8 +39,6 @@ class MainApp(MDApp):
         # Intialise my database
         self.connection = RDSconnector("../../../conf.json")
         self.cursor = self.connection.cursor
-
-
 
 
 MainApp().run()

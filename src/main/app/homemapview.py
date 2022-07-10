@@ -1,4 +1,4 @@
-from kivy_garden.mapview import MapView, MapMarkerPopup
+from kivy_garden.mapview import MapView
 from kivy.clock import Clock
 from kivy.app import App
 from marketmarker import MarketMarker
@@ -18,6 +18,10 @@ class HomeMapView(MapView):
         self.getting_markets_timer = Clock.schedule_once(self.get_markets_in_fov, 1)
 
     def get_markets_in_fov(self, *args):
+        '''
+
+
+        '''
         # Get reference to main app and the database cursor
         min_lat, min_lon, max_lat, max_lon = self.get_bbox()
         app = App.get_running_app()
@@ -25,8 +29,8 @@ class HomeMapView(MapView):
         min_lon, max_lon, min_lat, max_lat)
         app.cursor.execute(sql_statement)
         markets = app.cursor.fetchall()
-        #print(markets)
-        #print("---------------")
+        print(markets)
+        print("---------------")
         for market in markets:
             id = market[1]
             if id in self.market_names:
@@ -39,9 +43,11 @@ class HomeMapView(MapView):
         lat, lon = market[2], market[3]
         marker = MarketMarker(lat = lat, lon = lon)
 
+        # marker.market_data = market # pas sur
+
         # Add the MarketMarker to the map
         self.add_widget(marker)
 
         # Keep track of the marker's name
-        id = market[2]
+        id = market[1]
         self.market_names.append(id)
