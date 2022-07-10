@@ -3,7 +3,6 @@
     used for the whole project
 """
 import json
-
 import pandas
 
 from main.data.connectors.GoogleAPISearch import GoogleAPISearch
@@ -78,7 +77,7 @@ def grid_fetch(target_table):
     update_checkpoint(string, target_table)
 
 
-def coordinates_insert(conn , lat, lon, table):
+def coordinates_insert(conn, lat, lon, table):
     """Writes line to RDS db"""
     already_known = pandas.DataFrame(
         data=conn.execute_select(
@@ -109,11 +108,24 @@ def coordinates_insert(conn , lat, lon, table):
     print(nearby)
 
 
+def test():
+    import geocoder
+    google_api = GoogleAPISearch()
+    g = geocoder.ip("me")
+    lat = g.latlng[0]
+    lon = g.latlng[1]
+    dic = json.loads(google_api.get_nearby_station(lat, lon))
+
+    print(dic)
+
+
 def main():
     """Main function"""
     # coordinates_insert()
-    grid_fetch("googleAPI")
+    # grid_fetch("googleAPI")
     # grid_fetch("tomtomAPI")
+
+    test()
 
 
 if __name__ == "__main__":
