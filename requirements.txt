@@ -11,3 +11,7 @@ pytest
 click
 pymysql
 geocoder
+Kivy
+kivymd
+plyer
+py-androidbuild

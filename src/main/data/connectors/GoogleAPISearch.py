@@ -16,9 +16,11 @@ class GoogleAPISearch:
     def get_station_data(self, station_id):
         """get data from specific station"""
         url = (
-                self.base_url + f"/details/json?place_id={station_id}&"
-        # "fields=name%2Crating%2Cformatted_phone_number"
-                                "&key=" + self.key
+            self.base_url
+            + f"/details/json?place_id={station_id}&"
+            # "fields=name%2Crating%2Cformatted_phone_number"
+            "&key="
+            + self.key
         )
 
         payload = {}
@@ -41,8 +43,8 @@ class GoogleAPISearch:
 
         loc = f"{lat}%2C{lon}"
         url = (
-                self.base_url + f"/nearbysearch/json?location={loc}"
-                                "&radius=5000&keyword=charging electric vehicule station&key=" + self.key
+            self.base_url + f"/nearbysearch/json?location={loc}"
+            "&radius=5000&keyword=charging electric vehicule station&key=" + self.key
         )
 
         payload = {}

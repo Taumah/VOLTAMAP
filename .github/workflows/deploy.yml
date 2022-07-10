@@ -13,9 +13,9 @@ jobs:
       - name: installing dependencies
         run : python -m pip install -r requirements.txt
       - name : Format Code
-        run : black src/main
+        run : black src/
       - name: Lint Code
-        run : pylint src/main/
+        run : pylint src/
 #      - name: Test Code
 #        run : pytest src/test/data/test.py ; \
 #              pytest src/test/web_app/test.py
