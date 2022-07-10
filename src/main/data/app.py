@@ -3,7 +3,6 @@
     used for the whole project
 """
 import json
-
 import pandas
 
 from main.data.connectors.GoogleAPISearch import GoogleAPISearch
@@ -18,7 +17,7 @@ def update_checkpoint(string, target_table):
     update checkpoint
     """
     with open(
-            f"./checkpoint/{target_table}/fetch_grid.json", "w", encoding="utf-8"
+        f"./checkpoint/{target_table}/fetch_grid.json", "w", encoding="utf-8"
     ) as file:
         json.dump(
             string,
@@ -33,13 +32,12 @@ def grid_fetch(target_table):
     """read checkpoint file to move x and y cursor along France (GPS)"""
     conn = RDSconnector("../../../conf.json")
 
-    with open(f"./checkpoint/{target_table}/fetch_grid.json", "r", encoding="utf-8") as file:
+    with open(
+        f"./checkpoint/{target_table}/fetch_grid.json", "r", encoding="utf-8"
+    ) as file:
         string = json.load(file)
     bounding_box = (
-        (
-            string["coordinates"]["dest"]["lat"],
-            string["coordinates"]["dest"]["lon"]
-        ),
+        (string["coordinates"]["dest"]["lat"], string["coordinates"]["dest"]["lon"]),
         (
             string["coordinates"]["current"]["lat"],
             string["coordinates"]["current"]["lon"],
@@ -58,12 +56,24 @@ def grid_fetch(target_table):
 
     origin_insert_count = insert_count = 3800
 
-    while string["coordinates"]["current"]["lon"] > string["coordinates"]["dest"]["lon"]:
-        while string["coordinates"]["current"]["lat"] < string["coordinates"]["dest"]["lat"]:
-            print(string["coordinates"]["current"]["lon"], string["coordinates"]["current"]["lat"])
+    while (
+        string["coordinates"]["current"]["lon"] > string["coordinates"]["dest"]["lon"]
+    ):
+        while (
+            string["coordinates"]["current"]["lat"]
+            < string["coordinates"]["dest"]["lat"]
+        ):
+            print(
+                string["coordinates"]["current"]["lon"],
+                string["coordinates"]["current"]["lat"],
+            )
             insert_count -= 1
-            coordinates_insert(conn, string["coordinates"]["current"]["lat"] / precision,
-                               string["coordinates"]["current"]["lon"] / precision, target_table)
+            coordinates_insert(
+                conn,
+                string["coordinates"]["current"]["lat"] / precision,
+                string["coordinates"]["current"]["lon"] / precision,
+                target_table,
+            )
             update_checkpoint(string, target_table)
             string["coordinates"]["current"]["lat"] += width_steps
 
@@ -78,7 +88,7 @@ def grid_fetch(target_table):
     update_checkpoint(string, target_table)
 
 
-def coordinates_insert(conn , lat, lon, table):
+def coordinates_insert(conn, lat, lon, table):
     """Writes line to RDS db"""
     already_known = pandas.DataFrame(
         data=conn.execute_select(
@@ -109,11 +119,22 @@ def coordinates_insert(conn , lat, lon, table):
     print(nearby)
 
 
+def test():
+    """launch tests for app.py"""
+
+    google_api = GoogleAPISearch()
+    dic = json.loads(google_api.get_nearby_station())
+
+    print(dic)
+
+
 def main():
     """Main function"""
     # coordinates_insert()
-    grid_fetch("googleAPI")
+    # grid_fetch("googleAPI")
     # grid_fetch("tomtomAPI")
+
+    test()
 
 
 if __name__ == "__main__":

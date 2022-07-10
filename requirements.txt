@@ -8,6 +8,10 @@ requests
 black
 
 pytest
-click
+click>=8.0.0
 pymysql
 geocoder
+Kivy
+kivymd
+plyer
+py-androidbuild
