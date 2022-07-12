@@ -8,6 +8,7 @@ from kivymd.uix.boxlayout import MDBoxLayout
 # Class
 from homemapview import HomeMapView
 from gpshelper import GpsHelper
+from src.main.app.searchpopupmenu import SearchPopupMenu
 from src.main.data.connectors.connectors import RDSconnector
 
 #  SQl
@@ -26,6 +27,7 @@ class HomeScreen(Screen):
 
 class MainApp(MDApp):
     connection = None
+    search_menu = None
 
     def on_start(self):
         # https://kivymd.readthedocs.io/en/latest/themes/theming/
@@ -39,6 +41,9 @@ class MainApp(MDApp):
         # Intialise my database
         self.connection = RDSconnector("../../../conf.json")
         self.cursor = self.connection.cursor
+
+        # Instantiate SearchPopupMenu
+        self.search_menu = SearchPopupMenu()
 
 
 MainApp().run()
