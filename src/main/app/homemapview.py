@@ -20,12 +20,10 @@ class HomeMapView(MapView):
         try:
             self.getting_markets_timer.cancel()
         except Exception:
-            print("Error : ")
-            sys.exit(1)
-
+            pass
         self.getting_markets_timer = Clock.schedule_once(self.get_markets_in_fov, 1)
 
-    def get_markets_in_fov(self):
+    def get_markets_in_fov(self, *args):
         """display marker depending on zoom state"""
         # Get reference to main app and the database cursor
         self.market_names = []
@@ -36,7 +34,7 @@ class HomeMapView(MapView):
         app = App.get_running_app()
         sql_statement = "SELECT id,latitude,longitude FROM stz_googleAPI WHERE longitude > %s AND longitude < %s AND latitude > %s AND latitude < %s " % (
             min_lon, max_lon, min_lat, max_lat)
-            # -3.0435056, 8.3004027, 42.2876432, 51.0482878)
+        # -3.0435056, 8.3004027, 42.2876432, 51.0482878)
         app.cursor.execute(sql_statement)
         markets = app.cursor.fetchall()
         print(len(markets))
@@ -50,10 +48,10 @@ class HomeMapView(MapView):
                 self.add_market(market)
 
 
-    def add_marker(self, market):
+    def add_market(self, market):
         """create, add and store marker"""
         # Create the MarketMarker
-        lat, lon = market[1], market[2]
+        lat, lon = float(market[1]), float(market[2])
         marker = MarketMarker(lat=lat, lon=lon)
 
         # marker.market_data = market # pas sur
@@ -62,5 +60,5 @@ class HomeMapView(MapView):
         self.add_widget(marker)
 
         # Keep track of the marker's name
-        id = marker[0]
+        id = market[0]
         self.market_names.append(id)
