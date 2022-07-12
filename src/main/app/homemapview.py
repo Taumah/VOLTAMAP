@@ -2,6 +2,7 @@ from kivy_garden.mapview import MapView
 from kivy.clock import Clock
 from kivy.app import App
 from marketmarker import MarketMarker
+from knnClustering import KnnClustering
 
 
 class HomeMapView(MapView):
@@ -23,16 +24,22 @@ class HomeMapView(MapView):
 
         '''
         # Get reference to main app and the database cursor
+        self.market_names = []
+        # TODO erase all current markers
+        # TODO under 200 elements : display markers
+        # TODO under 200 elements : display markers
         min_lat, min_lon, max_lat, max_lon = self.get_bbox()
         app = App.get_running_app()
-        sql_statement = "SELECT * FROM stz_googleAPI WHERE longitude > %s AND longitude < %s AND latitude > %s AND latitude < %s " % (
-        min_lon, max_lon, min_lat, max_lat)
+        sql_statement = "SELECT id,latitude,longitude FROM stz_googleAPI WHERE longitude > %s AND longitude < %s AND latitude > %s AND latitude < %s " % (
+            min_lon, max_lon, min_lat, max_lat)
+            # -3.0435056, 8.3004027, 42.2876432, 51.0482878)
         app.cursor.execute(sql_statement)
         markets = app.cursor.fetchall()
-        print(markets)
-        print("---------------")
+        print(len(markets))
+        markets = KnnClustering(markets, centroids=4).knn_clustering()
+        # print("---------------")
         for market in markets:
-            id = market[1]
+            id = market[0]
             if id in self.market_names:
                 continue
             else:
@@ -40,8 +47,8 @@ class HomeMapView(MapView):
 
     def add_market(self, market):
         # Create the MarketMarker
-        lat, lon = market[2], market[3]
-        marker = MarketMarker(lat = lat, lon = lon)
+        lat, lon = market[1], market[2]
+        marker = MarketMarker(lat=lat, lon=lon)
 
         # marker.market_data = market # pas sur
 
@@ -49,5 +56,5 @@ class HomeMapView(MapView):
         self.add_widget(marker)
 
         # Keep track of the marker's name
-        id = market[1]
+        id = market[0]
         self.market_names.append(id)
