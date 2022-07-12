@@ -1,3 +1,7 @@
+"""Required Docstring"""
+# pylint: disable=import-error
+from kivy.core.window import Window
+
 # Kivy
 from kivy.uix.screenmanager import Screen
 from kivymd.app import MDApp
@@ -16,22 +20,27 @@ import pymysql
 
 Window.size = (500, 500)
 
-
+# pylint: disable=too-many-ancestors
 class NavBar(FakeRectangularElevationBehavior, MDBoxLayout):
-    pass
+    """Bottom navBar"""
 
 
 class HomeScreen(Screen):
-    pass
+    """Classic Screen Class"""
 
 
 class MainApp(MDApp):
-    connection = None
-    search_menu = None
+    """App"""
+
+    def __init__(self, _=None):
+        super().__init__()
+        self.cursor = None
+        self.connection = None
+        self.search_menu = None
 
     def on_start(self):
         # https://kivymd.readthedocs.io/en/latest/themes/theming/
-        self.theme_cls.primary_palette = 'BlueGray'
+        self.theme_cls.primary_palette = "BlueGray"
         self.theme_cls.primary_hue = "500"
         self.theme_cls.theme_style = "Light"
 
@@ -42,8 +51,11 @@ class MainApp(MDApp):
         self.connection = RDSconnector("../../../conf.json")
         self.cursor = self.connection.cursor
 
-        # Instantiate SearchPopupMenu
         self.search_menu = SearchPopupMenu()
+
+    def get_connection(self):
+        """return connection"""
+        return self.connection
 
 
 MainApp().run()

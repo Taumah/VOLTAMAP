@@ -1,3 +1,7 @@
+"""Required Docstring"""
+# pylint: disable=import-error,broad-except
+import sys
+
 from kivy_garden.mapview import MapView
 from kivy.clock import Clock
 from kivy.app import App
@@ -6,23 +10,23 @@ from knnClustering import KnnClustering
 
 
 class HomeMapView(MapView):
+    """Home Map View"""
+
     getting_markets_timer = None
     market_names = []
 
     def start_getting_markets_in_fov(self):
-        # After one second, get the markets in the field of view
+        """After one second, get the markets in the field of view"""
         try:
             self.getting_markets_timer.cancel()
-        except:
-            pass
+        except Exception:
+            print("Error : ")
+            sys.exit(1)
 
         self.getting_markets_timer = Clock.schedule_once(self.get_markets_in_fov, 1)
 
-    def get_markets_in_fov(self, *args):
-        '''
-
-
-        '''
+    def get_markets_in_fov(self):
+        """display marker depending on zoom state"""
         # Get reference to main app and the database cursor
         self.market_names = []
         # TODO erase all current markers
@@ -45,7 +49,9 @@ class HomeMapView(MapView):
             else:
                 self.add_market(market)
 
-    def add_market(self, market):
+
+    def add_marker(self, market):
+        """create, add and store marker"""
         # Create the MarketMarker
         lat, lon = market[1], market[2]
         marker = MarketMarker(lat=lat, lon=lon)
@@ -56,5 +62,5 @@ class HomeMapView(MapView):
         self.add_widget(marker)
 
         # Keep track of the marker's name
-        id = market[0]
+        id = marker[0]
         self.market_names.append(id)

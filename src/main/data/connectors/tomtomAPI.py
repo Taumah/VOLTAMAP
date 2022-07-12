@@ -32,7 +32,7 @@ class TomtomAPISearch:
 
         return f"{available} stations out of {stations}"
 
-    def get_ids_around(self , lat = None , lon = None):
+    def get_ids_around(self, lat=None, lon=None):
         """retrieve Ids of stations around current position"""
         ids = []
         query = "Electric Vehicle Charging Station"

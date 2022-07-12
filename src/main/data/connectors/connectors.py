@@ -6,6 +6,7 @@ import pymysql
 
 class RDSconnector:
     """object to execute queries on RDS"""
+
     cursor = None
 
     # LATERtodo : possible swap from query var to set of : table + column + where (select)
@@ -43,16 +44,15 @@ class RDSconnector:
             self.connection.commit()
             return status
 
-    def execute_query(self, query):
+    def execute_query(self, query, debug=False):
         """launch RDS query"""
-        try:
-            with self.connection.cursor() as cur:
-                cur.execute(query)
-                rows = cur.fetchall()
+        with self.connection.cursor() as cur:
+            cur.execute(query)
+            rows = cur.fetchall()
+            if debug:
                 for row in rows:
                     print(row)
-        except (Exception,) as error:
-            print("[ERROR]", error)
+            return rows
 
     # def define_bucket(self, bucket_name):
     #     """set bucket to use... delete later"""
