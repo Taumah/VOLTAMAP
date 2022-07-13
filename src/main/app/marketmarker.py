@@ -8,7 +8,6 @@ from kivy_garden.mapview import MapMarkerPopup
 class MarketMarker(MapMarkerPopup):
     """Place marker on screen"""
 
-
     def __init__(self, lat: float, lon: float, **kwargs):
         super().__init__(**kwargs)
         self.lat = lat

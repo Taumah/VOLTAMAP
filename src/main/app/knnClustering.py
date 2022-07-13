@@ -2,7 +2,6 @@ import math
 import random
 
 import numpy as np
-from sklearn.neighbors import KNeighborsClassifier
 
 SQL_ID = 0
 SQL_LAT = 1

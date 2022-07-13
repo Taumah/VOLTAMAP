@@ -1,8 +1,12 @@
+"""Required Docstring"""
+# pylint: disable=import-error
 from kivy_garden.mapview import MapMarker
 from kivy.animation import Animation
 
 
 class GpsBlinker(MapMarker):
+    """Class GpsBlinker"""
+
     def blink(self):
         # Animation that changes the blink size and opacity
         anim = Animation(outer_opacity=0, blink_size=50)

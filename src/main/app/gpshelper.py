@@ -1,16 +1,20 @@
+"""Required Docstring"""
+# pylint: disable=import-error,no-name-in-module,use-a-generator,unused-argument
 from kivy.app import App
 from kivy.utils import platform
 from kivymd.uix.dialog import MDDialog
 
 
-class GpsHelper():
+class GpsHelper:
+    """Gps Helper Class"""
+
     has_centered_map = False
 
     def run(self):
         print("Je suis sur la plateform", platform)
 
         # Get a reference to GpsBlinker, then call blink()
-        gps_blinker =  App.get_running_app().root.ids.home_screen.ids.mapview.ids.blinker
+        gps_blinker = App.get_running_app().root.ids.home_screen.ids.mapview.ids.blinker
         # Start blinking the GpsBlinker
         gps_blinker.blink()
 
@@ -39,8 +43,8 @@ class GpsHelper():
         if platform == 'macosx':
             print("je suis dans mac os")
 
-
     def update_blinker_position(self, *args, **kwargs):
+        """update blinker position"""
         my_lat = kwargs['lat']
         my_lon = kwargs['lon']
         print("GPS POSITION", my_lat, my_lon)
@@ -55,8 +59,8 @@ class GpsHelper():
             map.center_on(my_lat, my_lon)
             self.has_centered_map = True
 
-
     def on_auth_status(self, general_status, status_message):
+        """popup when authenticated"""
         if general_status == 'provider-enabled':
             pass
         else:
@@ -67,4 +71,3 @@ class GpsHelper():
         dialog.size_hint = [.8, .8]
         dialog.pos_hint = {'center_x': .5, 'center_y': .5}
         dialog.open()
-
