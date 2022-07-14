@@ -18,9 +18,8 @@ class MarketMarker(MapMarkerPopup):
 
     def on_release(self):
         """action off hover"""
-        menu = LocationPopupMenu(self.market_data)
-        menu.size_hint = [0.8, 0.25]
-        menu.open()
+        LocationPopupMenu(self.market_data)
+
 
     def get_lat(self):
         """get marker latitude"""

@@ -73,11 +73,10 @@ class HomeMapView(MapView):
         # Create the MarketMarker
         lat, lon = float(market[1]), float(market[2])
         marker = MarketMarker(lat=lat, lon=lon)
-
-        # marker.market_data = market # pas sur
-
+        marker.market_data = market
         # Add the MarketMarker to the map
         self.add_widget(marker)
+
         # Keep track of the marker's name
         id = market[0]
         self.market_names.append(marker)
