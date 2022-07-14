@@ -3,6 +3,8 @@
     used for the whole project
 """
 import json
+
+import geocoder
 import pandas
 
 from main.data.connectors.GoogleAPISearch import GoogleAPISearch
@@ -17,7 +19,7 @@ def update_checkpoint(string, target_table):
     update checkpoint
     """
     with open(
-        f"./checkpoint/{target_table}/fetch_grid.json", "w", encoding="utf-8"
+            f"./checkpoint/{target_table}/fetch_grid.json", "w", encoding="utf-8"
     ) as file:
         json.dump(
             string,
@@ -33,7 +35,7 @@ def grid_fetch(target_table):
     conn = RDSconnector("../../../conf.json")
 
     with open(
-        f"./checkpoint/{target_table}/fetch_grid.json", "r", encoding="utf-8"
+            f"./checkpoint/{target_table}/fetch_grid.json", "r", encoding="utf-8"
     ) as file:
         string = json.load(file)
     bounding_box = (
@@ -57,11 +59,11 @@ def grid_fetch(target_table):
     origin_insert_count = insert_count = 3800
 
     while (
-        string["coordinates"]["current"]["lon"] > string["coordinates"]["dest"]["lon"]
+            string["coordinates"]["current"]["lon"] > string["coordinates"]["dest"]["lon"]
     ):
         while (
-            string["coordinates"]["current"]["lat"]
-            < string["coordinates"]["dest"]["lat"]
+                string["coordinates"]["current"]["lat"]
+                < string["coordinates"]["dest"]["lat"]
         ):
             print(
                 string["coordinates"]["current"]["lon"],
@@ -110,9 +112,11 @@ def coordinates_insert(conn, lat, lon, table):
             print(f"inserting {station['place_id']}")
             lat = station["geometry"]["location"]["lat"]
             lng = station["geometry"]["location"]["lng"]
+            icon = station["icon"]
+            name = station["name"]
             conn.execute_insert(
-                f"insert into stz_{table}(id, api_id , latitude, longitude) "
-                f"values(null,'{station['place_id']}','{lat}','{lng}')"
+                f"insert into stz_{table}(id, api_id , latitude, longitude, icon , station_name) "
+                f"values(null,'{station['place_id']}','{lat}','{lng}', '{icon}', '{name}')"
             )
 
     print(already_known)
@@ -122,10 +126,15 @@ def coordinates_insert(conn, lat, lon, table):
 def test():
     """launch tests for app.py"""
 
-    google_api = GoogleAPISearch()
-    dic = json.loads(google_api.get_nearby_station())
+    # google_api = GoogleAPISearch()
+    # dic = json.loads(google_api.get_nearby_station())
+    g = geocoder.ip("me")
+    lat = g.latlng[0]
+    lon = g.latlng[1]
+    conn = RDSconnector("../../../conf.json")
 
-    print(dic)
+    coordinates_insert(conn, lat, lon, 'googleAPI')
+    # print(dic)
 
 
 def main():
