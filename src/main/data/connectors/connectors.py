@@ -36,10 +36,10 @@ class RDSconnector:
 
             return cur.fetchall()
 
-    def execute_insert(self, query):
-        "Execute any INSERT query using connector"
+    def execute_insert(self, query, params=()):
+        """Execute any INSERT query using connector"""
         with self.connection.cursor() as cur:
-            status = cur.execute(query) != 0
+            status = cur.execute(query, params) != 0
 
             self.connection.commit()
             return status

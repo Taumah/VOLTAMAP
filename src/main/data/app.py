@@ -3,15 +3,17 @@
     used for the whole project
 """
 import json
+import time
 
 import geocoder
 import pandas
 
-from main.data.connectors.GoogleAPISearch import GoogleAPISearch
-from main.data.connectors.connectors import RDSconnector
+from data.connectors.GoogleAPISearch import GoogleAPISearch
+from data.connectors.connectors import RDSconnector
 
 
 # GOOGLE_API_KEY = "AIzaSyCb9HQGlIFqlL_QaCQh2_vQx6cDtOFai0c"
+# GOOGLE_API_KEY = "AIzaSyBVfRkQ9x5_2EVe510QaYS9h2qHVI0bxwk"
 
 
 def update_checkpoint(string, target_table):
@@ -56,7 +58,7 @@ def grid_fetch(target_table):
         (bounding_box[0][1] - string["coordinates"]["origin"]["lon"]) / height
     )
 
-    origin_insert_count = insert_count = 3800
+    origin_insert_count = insert_count = min(width * height / 50, 12000)
 
     while (
             string["coordinates"]["current"]["lon"] > string["coordinates"]["dest"]["lon"]
@@ -83,11 +85,21 @@ def grid_fetch(target_table):
                 string["total_inserts"] += origin_insert_count
                 update_checkpoint(string, target_table)
                 return
+            time.sleep(2)
 
         string["coordinates"]["current"]["lon"] += height_steps
         string["coordinates"]["current"]["lat"] = string["coordinates"]["origin"]["lat"]
     string["total_inserts"] += origin_insert_count - insert_count
     update_checkpoint(string, target_table)
+
+
+def add_suspicious_point(station):
+    lat = station["geometry"]["location"]["lat"]
+    lng = station["geometry"]["location"]["lng"]
+    name = station["name"]
+    place_id = station["place_id"]
+    with open(f"./checkpoint/googleAPI/dense_places.csv", "a") as file:
+        file.write("%s,%s,%s,%s" % (place_id, lat, lng, name))
 
 
 def coordinates_insert(conn, lat, lon, table):
@@ -105,25 +117,38 @@ def coordinates_insert(conn, lat, lon, table):
     # print("test1" in alreadyKnown['googleID'].to_numpy())
     #
     for station in nearby["results"]:
-
+        lat = station["geometry"]["location"]["lat"]
+        lng = station["geometry"]["location"]["lng"]
+        icon = station["icon"]
+        name = station["name"]
         if station["place_id"] in already_known["api_id"].to_numpy():
-            print(f"{station['place_id']} already known")
+            print(f"{station['place_id']} already known, updating")
+            conn.execute_insert(
+                f"update stz_{table} set "
+                f"latitude=%s, "
+                f"longitude=%s, "
+                f"icon=%s, "
+                f"station_name=%s, "
+                f"json_data=%s "
+                f"where api_id=%s",
+                params=(lat, lng, icon, name, station.__str__(), station['place_id'])
+            )
         else:
             print(f"inserting {station['place_id']}")
-            lat = station["geometry"]["location"]["lat"]
-            lng = station["geometry"]["location"]["lng"]
-            icon = station["icon"]
-            name = station["name"]
             conn.execute_insert(
-                f"insert into stz_{table}(id, api_id , latitude, longitude, icon , station_name) "
-                f"values(null,'{station['place_id']}','{lat}','{lng}', '{icon}', '{name}')"
+                f"insert into stz_{table}(id, api_id , latitude, longitude, icon , station_name, json_data) "
+                f"values(null,%s,%s,%s,%s,%s,%s)",
+                params=(station['place_id'], lat, lng, icon, name, station.__str__())
             )
 
-    print(already_known)
-    print(nearby)
+    print(len(already_known), "stations registered")
+    print(len(nearby["results"]), "stations nearby")
+    if len(nearby["results"]) == 100:
+        print("suspected dense area")
+        add_suspicious_point(nearby["results"][0])
 
 
-def test():
+def one_fetch():
     """launch tests for app.py"""
 
     # google_api = GoogleAPISearch()
@@ -140,10 +165,10 @@ def test():
 def main():
     """Main function"""
     # coordinates_insert()
-    # grid_fetch("googleAPI")
+    grid_fetch("googleAPI")
     # grid_fetch("tomtomAPI")
 
-    test()
+    # one_fetch()
 
 
 if __name__ == "__main__":

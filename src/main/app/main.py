@@ -9,12 +9,13 @@ from kivymd.uix.behaviors import FakeRectangularElevationBehavior
 from kivymd.uix.boxlayout import MDBoxLayout
 
 # Class
+from data.connectors.connectors import RDSconnector
 from gpshelper import GpsHelper
-from main.data.connectors.connectors import RDSconnector
 
 #  SQl
 
 Window.size = (500, 500)
+
 
 # pylint: disable=too-many-ancestors
 class NavBar(FakeRectangularElevationBehavior, MDBoxLayout):
@@ -51,4 +52,5 @@ class MainApp(MDApp):
         return self.connection
 
 
-MainApp().run()
+if __name__ == '__main__':
+    MainApp().run()
