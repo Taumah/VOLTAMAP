@@ -3,9 +3,9 @@
 **/*.py[co]
 **/.pytest_cache
 **/.DS_Store
-src/main/app/mapView.*
-src/main/app/cache/
-src/main/app/bin/
+src1/main/app/mapView.*
+src1/main/app/cache/
+src1/main/app/bin/
 **/.buildozer
-/src/main/app/.buildozer
-/src/main/app/.buildozer/
+/src1/main/app/.buildozer
+/src1/main/app/.buildozer/
