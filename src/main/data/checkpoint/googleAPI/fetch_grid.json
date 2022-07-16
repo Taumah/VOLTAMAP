@@ -1,8 +1,8 @@
 {
     "coordinates": {
         "current": {
-            "lat": 4937729160, 
-            "lon": 810029445
+            "lat": 4617069528, 
+            "lon": 765740671
         }, 
         "dest": {
             "lat": 5108916667, 
@@ -13,7 +13,7 @@
             "lon": 823055556
         }
     }, 
-    "height": 500, 
-    "total_inserts": 29, 
-    "width": 500
+    "height": 590, 
+    "total_inserts": 5029.0, 
+    "width": 535
 }

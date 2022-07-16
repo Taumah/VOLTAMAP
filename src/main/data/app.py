@@ -85,7 +85,7 @@ def grid_fetch(target_table):
                 string["total_inserts"] += origin_insert_count
                 update_checkpoint(string, target_table)
                 return
-            time.sleep(2)
+            time.sleep(1)
 
         string["coordinates"]["current"]["lon"] += height_steps
         string["coordinates"]["current"]["lat"] = string["coordinates"]["origin"]["lat"]

@@ -51,3 +51,21 @@ parameter tuning : 1st scale using 100x100 grid ( = 10 000 cases)
         }
     }
 }
+
+define width and height
+radius of search 1km (diameter 2km)
+gap between 2circles in diagonal : 820m
+== get diagonaly closer (410m each)
+410diagonal = 289m following y and 289m following x
+
+leads to 1call with radius 1km every (2 * 1km  - 289m) 1700m
+northest point <-> southest point : 1000km
+eastest point <-> westest point : 910km
+
+1000 / 1,7 = 590
+910 / 1,7 = 535
+
+590*535 = 315 823api calls
+
+1 call ~~ every 4s (315823*4  => 1 263 294s = 350h = 14d)
+1 call ~~ every 3s (315823*3  => 947 469s = 263h = 11d)
