@@ -1,0 +1,13 @@
+{
+    "APIkeys" : {
+
+        "tomtomAPIKey" : "NGxlSU04s6PDx4eCnI2sxGhMlAx6Lp2R",
+        "googleAPIKey" : "AIzaSyCb9HQGlIFqlL_QaCQh2_vQx6cDtOFai0c"
+    },
+    "RDSconf" : {
+        "host" : "pa4a.cca9akw9bbde.eu-west-3.rds.amazonaws.com",
+        "user" : "admin",
+        "password" : "pa4aesgi",
+        "database" : "pa4a"
+    }
+}

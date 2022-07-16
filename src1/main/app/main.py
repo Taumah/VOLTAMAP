@@ -12,11 +12,11 @@ from kivymd.uix.boxlayout import MDBoxLayout
 # Class
 from homemapview import HomeMapView
 from gpshelper import GpsHelper
-from src1.main.app.searchpopupmenu import SearchPopupMenu
-from src1.main.data.connectors.connectors import RDSconnector
+from searchpopupmenu import SearchPopupMenu
+from data.connectors.connectors import RDSconnector
 
 #  SQl
-import pymysql
+#import pymysql
 
 Window.size = (500, 500)
 
@@ -48,7 +48,7 @@ class MainApp(MDApp):
         GpsHelper().run()
 
         # Intialise my database
-        self.connection = RDSconnector("../../../conf.json")
+        self.connection = RDSconnector("conf.json")
         self.cursor = self.connection.cursor
 
         self.search_menu = SearchPopupMenu()
