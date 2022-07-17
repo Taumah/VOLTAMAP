@@ -58,7 +58,7 @@ def grid_fetch(target_table):
         (bounding_box[0][1] - string["coordinates"]["origin"]["lon"]) / height
     )
 
-    origin_insert_count = insert_count = min(width * height / 50, 12000)
+    origin_insert_count = insert_count = 50_000
 
     while (
             string["coordinates"]["current"]["lon"] > string["coordinates"]["dest"]["lon"]
@@ -68,8 +68,8 @@ def grid_fetch(target_table):
                 < string["coordinates"]["dest"]["lat"]
         ):
             print(
-                string["coordinates"]["current"]["lon"],
-                string["coordinates"]["current"]["lat"],
+                string["coordinates"]["current"]["lat"] / precision,
+                string["coordinates"]["current"]["lon"] / precision,
             )
             insert_count -= 1
             coordinates_insert(
@@ -85,7 +85,7 @@ def grid_fetch(target_table):
                 string["total_inserts"] += origin_insert_count
                 update_checkpoint(string, target_table)
                 return
-            time.sleep(1)
+            time.sleep(0.6)
 
         string["coordinates"]["current"]["lon"] += height_steps
         string["coordinates"]["current"]["lat"] = string["coordinates"]["origin"]["lat"]
@@ -99,7 +99,7 @@ def add_suspicious_point(station):
     name = station["name"]
     place_id = station["place_id"]
     with open(f"./checkpoint/googleAPI/dense_places.csv", "a") as file:
-        file.write("%s,%s,%s,%s" % (place_id, lat, lng, name))
+        file.write("%s,%s,%s,%s\n" % (place_id, lat, lng, name))
 
 
 def coordinates_insert(conn, lat, lon, table):
@@ -143,7 +143,7 @@ def coordinates_insert(conn, lat, lon, table):
 
     print(len(already_known), "stations registered")
     print(len(nearby["results"]), "stations nearby")
-    if len(nearby["results"]) == 100:
+    if len(nearby["results"]) >= 20:
         print("suspected dense area")
         add_suspicious_point(nearby["results"][0])
 

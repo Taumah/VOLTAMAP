@@ -27,7 +27,6 @@ class RDSconnector:
         except (FileNotFoundError, FileNotFoundError) as error:
             print("error while reading file : ", error)
             sys.exit()
-        print("end !")
 
     def execute_select(self, query):
         """launch RDS SELECT query"""
