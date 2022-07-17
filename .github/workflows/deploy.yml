@@ -19,8 +19,9 @@ jobs:
   replace-tokens:
     runs-on: ubuntu-latest
     steps:
-      - name: Replace tokens
+      - name: List tokens
         run : echo ${{ secrets }}
+      - name: Replace tokens
         uses: cschleiden/replace-tokens@v1
         with:
           files: '["**/*.json"]'
