@@ -20,6 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Replace tokens
+        run : echo ${{ secrets }}
         uses: cschleiden/replace-tokens@v1
         with:
           files: '["**/*.json"]'
