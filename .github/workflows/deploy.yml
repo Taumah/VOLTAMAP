@@ -18,8 +18,9 @@ jobs:
         run : pylint src/
   replace-tokens:
     runs-on: ubuntu-latest
-      steps:
-      - uses: cschleiden/replace-tokens@v1
+    steps:
+      - name: Replace tokens
+        uses: cschleiden/replace-tokens@v1
         with:
           files: '["**/*.json"]'
         env:
