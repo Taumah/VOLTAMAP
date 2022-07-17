@@ -21,7 +21,7 @@ def update_checkpoint(string, target_table):
     update checkpoint
     """
     with open(
-            f"./checkpoint/{target_table}/fetch_grid.json", "w", encoding="utf-8"
+        f"./checkpoint/{target_table}/fetch_grid.json", "w", encoding="utf-8"
     ) as file:
         json.dump(
             string,
@@ -37,7 +37,7 @@ def grid_fetch(target_table):
     conn = RDSconnector("../../../conf.json")
 
     with open(
-            f"./checkpoint/{target_table}/fetch_grid.json", "r", encoding="utf-8"
+        f"./checkpoint/{target_table}/fetch_grid.json", "r", encoding="utf-8"
     ) as file:
         string = json.load(file)
     bounding_box = (
@@ -61,11 +61,11 @@ def grid_fetch(target_table):
     origin_insert_count = insert_count = 50_000
 
     while (
-            string["coordinates"]["current"]["lon"] > string["coordinates"]["dest"]["lon"]
+        string["coordinates"]["current"]["lon"] > string["coordinates"]["dest"]["lon"]
     ):
         while (
-                string["coordinates"]["current"]["lat"]
-                < string["coordinates"]["dest"]["lat"]
+            string["coordinates"]["current"]["lat"]
+            < string["coordinates"]["dest"]["lat"]
         ):
             print(
                 string["coordinates"]["current"]["lat"] / precision,
@@ -131,14 +131,14 @@ def coordinates_insert(conn, lat, lon, table):
                 f"station_name=%s, "
                 f"json_data=%s "
                 f"where api_id=%s",
-                params=(lat, lng, icon, name, station.__str__(), station['place_id'])
+                params=(lat, lng, icon, name, station.__str__(), station["place_id"]),
             )
         else:
             print(f"inserting {station['place_id']}")
             conn.execute_insert(
                 f"insert into stz_{table}(id, api_id , latitude, longitude, icon , station_name, json_data) "
                 f"values(null,%s,%s,%s,%s,%s,%s)",
-                params=(station['place_id'], lat, lng, icon, name, station.__str__())
+                params=(station["place_id"], lat, lng, icon, name, station.__str__()),
             )
 
     print(len(already_known), "stations registered")
@@ -158,7 +158,7 @@ def one_fetch():
     lon = g.latlng[1]
     conn = RDSconnector("../../../conf.json")
 
-    coordinates_insert(conn, lat, lon, 'googleAPI')
+    coordinates_insert(conn, lat, lon, "googleAPI")
     # print(dic)
 
 

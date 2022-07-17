@@ -52,5 +52,5 @@ class MainApp(MDApp):
         return self.connection
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     MainApp().run()
