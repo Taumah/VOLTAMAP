@@ -7,10 +7,10 @@ from kivy.app import App
 import certifi
 from kivy.clock import Clock
 
-
-class SearchPopupMenu(MDDialog):
+class SearchPopupMenu():
     title = 'Search by Address'
     text_button_ok = 'Search'
+
 
     def __init__(self):
         super().__init__()
@@ -23,6 +23,7 @@ class SearchPopupMenu(MDDialog):
 
     def callback(self, *args):
         address = self.text_field.text
+        print(address)
         self.geocode_get_lat_lon(address)
 
 

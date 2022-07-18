@@ -1,20 +1,34 @@
 #:import utils kivy.utils
 #:include homemapview.kv
 
-<HomeScreen>:
+<MemoryManagementSystem>:
+    transition: FadeTransition()
+    HomeScreen:
+        name: "homeScreen"
+    #MainScreen:
+        #name: "main_screen"
 
+<HomeScreen>:
+    name: 'homescreen'
     MDBoxLayout:
         orientation : "vertical"
         md_bg_color: 1, 1, 1, 1
         MDBoxLayout:
             adaptive_height: True
-            MDIconButton:
-                icon: 'magnify'
-            MDTextField:
+            padding : "20dp"
+            MDTextFieldRound:
+                id : address
                 hint_text: 'Search EV charging station'
-                icon_left: "search"
-                pos_hint:{'center_x': 1,'center_y': .5}
+                pos_hint:{'center_x': 1,'center_y': 0.5}
                 size_hint: 1, None
+
+                color_active: 0, 1, 0, 1
+                #color_mode: 'custom'
+                #line_color: 0, 1, 0, 1
+
+            MDIconButton:
+                icon: 'map-search'
+
 
         HomeMapView:
             pos_hint: {"top": .795, "left": 1}
