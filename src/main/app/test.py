@@ -6,6 +6,30 @@ from kivymd.uix.button import MDFlatButton
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.snackbar import Snackbar
 
+KV = '''
+<Content>
+    id: content
+    orientation: "vertical"
+    spacing: "12dp"
+    size_hint_y: None
+    height: "120dp"
+
+    MDTextField:
+        id: city
+        hint_text: "City"
+
+    MDTextField:
+        hint_text: "Street"
+
+
+MDFloatLayout:
+
+    MDFlatButton:
+        text: "ALERT DIALOG"
+        pos_hint: {'center_x': .5, 'center_y': .5}
+        on_release: app.show_confirmation_dialog()
+'''
+
 
 class Content(BoxLayout):
     pass
