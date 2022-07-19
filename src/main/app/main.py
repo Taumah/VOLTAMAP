@@ -1,13 +1,10 @@
 """Required Docstring"""
 # pylint: disable=import-error
-from kivy.app import App
-from kivy.clock import Clock
-from kivy.core.window import Window
 
 # Kivy
-from kivy.lang import Builder
-from kivy.properties import StringProperty
-from kivy.uix.screenmanager import Screen, ScreenManager
+from kivy.app import App
+from kivy.core.window import Window
+from kivy.uix.screenmanager import Screen
 from kivymd.app import MDApp
 from kivy.core.window import Window
 from kivymd.uix.behaviors import FakeRectangularElevationBehavior
@@ -16,11 +13,8 @@ from kivymd.uix.boxlayout import MDBoxLayout
 # Class
 from homemapview import HomeMapView
 from gpshelper import GpsHelper
-#from searchpopupmenu import SearchPopupMenu
 from data.connectors.connectors import RDSconnector
 
-#  SQl
-#import pymysql
 
 Window.size = (500, 500)
 
@@ -33,21 +27,6 @@ class HomeScreen(Screen):
 
     def callback(self, *args):
         print(self.ids.address.text)
-
-
-# class MemoryManagementSystem(ScreenManager):
-#     def __init__(self, **kwargs):
-#         super(MemoryManagementSystem, self).__init__(**kwargs)
-#
-#     def transit_scene(self, *args):
-#         self.current = "homescreen"
-#
-#     def on_enter(self, *largs):
-#         address = StringProperty()
-#         homescreen = self.manager.get_screen('homescreen')
-#         self.address = homescreen.ids.address.text
-#         print(self.address)
-
 
 
 class MainApp(MDApp):
@@ -68,7 +47,7 @@ class MainApp(MDApp):
         # start the gps
         GpsHelper().run()
 
-        # Intialise my database
+        # Initialise the database
         self.connection = RDSconnector("conf.json")
         self.cursor = self.connection.cursor
 
