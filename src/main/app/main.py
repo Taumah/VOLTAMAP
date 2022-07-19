@@ -27,7 +27,7 @@ class NavBar(FakeRectangularElevationBehavior, MDBoxLayout):
 
 class HomeScreen(Screen):
     """Classic Screen Class"""
-
+    #Searchbar functions
     def geocode_get_lat_lon(self, address):
         address = parse.quote(address)
         url = "https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=AIzaSyCVW90LRumD-f_qiTvktpVf0_ZRymE58MA" % \
@@ -36,6 +36,12 @@ class HomeScreen(Screen):
 
     def success(self, urlrequest, result):
         print("Success")
+        latitude = result["results"][0]["geometry"]["location"]["lat"]
+        longitude = result["results"][0]["geometry"]["location"]["lng"]
+        mapview = App.get_running_app().root.ids.home_screen.ids.mapview
+        mapview.center_on(latitude, longitude)
+
+        #Add exception
 
     def error(self, urlrequest, result):
         print("Error : ", result)
