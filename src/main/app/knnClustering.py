@@ -9,6 +9,9 @@ SQL_LON = 2
 
 
 def distance(centroid, marker):
+    """
+    Function to calculate the distance between two points
+    """
     c_lat, c_lon = centroid[SQL_LAT], centroid[SQL_LON]
     m_lat, m_lon = marker[SQL_LAT], marker[SQL_LON]
 
