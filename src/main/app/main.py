@@ -38,7 +38,7 @@ class HomeScreen(Screen):
               address
         UrlRequest(url, on_success=self.success, on_failure=self.failure, on_error=self.error)
 
-    def success(self, urlrequest, result):
+    def success(self, urlrequest: None, result):
         """
         Sucess function to retrieve longitude, latitude and changes the location of the map
         """
@@ -48,18 +48,16 @@ class HomeScreen(Screen):
             longitude = result["items"][0]["position"]["lng"]
             mapview = App.get_running_app().root.ids.home_screen.ids.mapview
             mapview.center_on(latitude, longitude)
-        except Exception as e:
-            print("Error", e)
+        except Exception as error:
+            print("Error", error)
 
-        # Add exception
-
-    def error(self, urlrequest, result):
+    def error(self, urlrequest: None, result):
         """
         Function error : print error if this occurs
         """
         print("Error : ", result)
 
-    def failure(self, urlrequest, result):
+    def failure(self, urlrequest: None, result):
         """
         Function failure : print failure if this occurs
         """

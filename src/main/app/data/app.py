@@ -5,9 +5,8 @@
 import json
 import pandas
 
-from main.data.connectors.GoogleAPISearch import GoogleAPISearch
-from main.data.connectors.connectors import RDSconnector
-
+from src.main.app.data.connectors.GoogleAPISearch import GoogleAPISearch
+from src.main.app.data.connectors.connectors import RDSconnector
 
 # GOOGLE_API_KEY = "AIzaSyCb9HQGlIFqlL_QaCQh2_vQx6cDtOFai0c"
 

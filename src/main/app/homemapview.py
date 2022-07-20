@@ -24,6 +24,9 @@ class HomeMapView(MapView):
         self.getting_markets_timer = Clock.schedule_once(self.get_markets_in_fov, 1)
 
     def reset_window(self):
+        """
+        Reset the window for change scene
+        """
         for marker in self.market_names:
             self.remove_widget(marker)
 
@@ -41,8 +44,8 @@ class HomeMapView(MapView):
         # TODO faire un petit ratio afficher plus de cluster quand dezoomer
         min_lat, min_lon, max_lat, max_lon = self.get_bbox()
         app = App.get_running_app()
-        sql_statement = "SELECT id,latitude,longitude FROM stz_googleAPI WHERE longitude > %s AND longitude < %s AND latitude > %s AND latitude < %s " % (
-            min_lon, max_lon, min_lat, max_lat)
+        sql_statement = "SELECT id,latitude,longitude FROM stz_googleAPI WHERE longitude > %s AND longitude < %s AND " \
+                        "latitude > %s AND latitude < %s " % (min_lon, max_lon, min_lat, max_lat)
         # -3.0435056, 8.3004027, 42.2876432, 51.0482878)
         app.cursor.execute(sql_statement)
         markets = app.cursor.fetchall()

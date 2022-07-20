@@ -16,6 +16,9 @@ def distance(centroid, marker):
 
 
 class KnnClustering:
+    """
+    Class allowing to realize the grouping of markers
+    """
 
     def __init__(self, markers, centroids=4):
         self.markers = markers
@@ -28,6 +31,9 @@ class KnnClustering:
             self.centroids.append((i, base_marker[SQL_LAT], base_marker[SQL_LON]))
 
     def knn_clustering(self):
+        """
+        Define the knn clustering to regroup marker
+        """
         if not self.markers:
             return []
 
@@ -55,6 +61,9 @@ class KnnClustering:
         return self.centroids
 
     def __str__(self):
+        """
+        Str
+        """
         return "%ld markers \n" \
                "%d centroids \n" \
                "positions : %s" % \
