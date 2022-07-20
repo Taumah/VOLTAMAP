@@ -18,23 +18,30 @@ from homemapview import HomeMapView
 from gpshelper import GpsHelper
 from data.connectors.connectors import RDSconnector
 
-
 Window.size = (500, 500)
+
 
 # pylint: disable=too-many-ancestors
 class NavBar(FakeRectangularElevationBehavior, MDBoxLayout):
     """Bottom navBar"""
 
+
 class HomeScreen(Screen):
     """Classic Screen Class"""
-    #Searchbar functions
+
     def geocode_get_lat_lon(self, address):
+        """
+        function to get
+        """
         address = parse.quote(address)
         url = "https://geocode.search.hereapi.com/v1/geocode?q=%s&apiKey=3elYArDHTylMIMjwzbR2EoPdNj7nvyn7EtFYIFr9o_4" % \
               address
         UrlRequest(url, on_success=self.success, on_failure=self.failure, on_error=self.error)
 
     def success(self, urlrequest, result):
+        """
+        Sucess function to retrieve longitude, latitude and changes the location of the map
+        """
         print("Success")
         try:
             latitude = result["items"][0]["position"]["lat"]
@@ -44,20 +51,27 @@ class HomeScreen(Screen):
         except Exception as e:
             print("Error", e)
 
-        #Add exception
+        # Add exception
 
     def error(self, urlrequest, result):
+        """
+        Function error : print error if this occurs
+        """
         print("Error : ", result)
 
     def failure(self, urlrequest, result):
+        """
+        Function failure : print failure if this occurs
+        """
         print("Failure : ", result)
 
     def callback(self, *args):
+        """
+        Function callback : recuperate the text of the button on_press
+        """
         address = self.ids.address.text
         self.geocode_get_lat_lon(address)
 
-    def popup_error(self,error):
-        pass
 
 class MainApp(MDApp):
     """App"""
@@ -69,6 +83,9 @@ class MainApp(MDApp):
         self.search_menu = None
 
     def on_start(self):
+        """
+        Call of all functions at the start of the project
+        """
         # https://kivymd.readthedocs.io/en/latest/themes/theming/
         self.theme_cls.primary_palette = "Green"
         self.theme_cls.primary_hue = "500"
@@ -81,11 +98,11 @@ class MainApp(MDApp):
         self.connection = RDSconnector("conf.json")
         self.cursor = self.connection.cursor
 
-        #self.search_menu = SearchPopupMenu()
+        # self.search_menu = SearchPopupMenu()
 
     def get_connection(self):
         """return connection"""
         return self.connection
 
 
-MainApp().run()
+MainApp().run() # Lunch the project

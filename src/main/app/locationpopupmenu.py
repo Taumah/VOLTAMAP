@@ -31,5 +31,8 @@ class LocationPopupMenu(MDDialog):
         self.dialog.open()
 
     def close_popup(self, *args):
+        """
+        Function to close the popup
+        """
         self.dialog.dismiss()
 

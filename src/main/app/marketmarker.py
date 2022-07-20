@@ -12,7 +12,7 @@ class MarketMarker(MapMarkerPopup):
         super().__init__(**kwargs)
         self.lat = lat
         self.lon = lon
-        #self.source = "./image/custom_marker.png"
+        self.source = "./image/custom_marker.png"
         self.texture_size = (25, 25)
         self.market_data = []
 

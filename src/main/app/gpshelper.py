@@ -11,8 +11,10 @@ class GpsHelper:
     has_centered_map = False
 
     def run(self):
-        print("Je suis sur la plateform", platform)
-
+        """
+        Function to run the gps
+        """
+        print("I m on the plateform : ", platform)
         # Get a reference to GpsBlinker, then call blink()
         gps_blinker = App.get_running_app().root.ids.home_screen.ids.mapview.ids.blinker
         # Start blinking the GpsBlinker
@@ -67,6 +69,9 @@ class GpsHelper:
             self.open_gps_access_popup()
 
     def open_gps_access_popup(self):
+        """
+        Open the popup to allowing worry about a malfunction
+        """
         dialog = MDDialog(title="GPS Error", text="You need to enable GPS access for the app to function properly")
         dialog.size_hint = [.8, .8]
         dialog.pos_hint = {'center_x': .5, 'center_y': .5}
