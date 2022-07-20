@@ -30,16 +30,19 @@ class HomeScreen(Screen):
     #Searchbar functions
     def geocode_get_lat_lon(self, address):
         address = parse.quote(address)
-        url = "https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=AIzaSyCVW90LRumD-f_qiTvktpVf0_ZRymE58MA" % \
+        url = "https://geocode.search.hereapi.com/v1/geocode?q=%s&apiKey=3elYArDHTylMIMjwzbR2EoPdNj7nvyn7EtFYIFr9o_4" % \
               address
         UrlRequest(url, on_success=self.success, on_failure=self.failure, on_error=self.error)
 
     def success(self, urlrequest, result):
         print("Success")
-        latitude = result["results"][0]["geometry"]["location"]["lat"]
-        longitude = result["results"][0]["geometry"]["location"]["lng"]
-        mapview = App.get_running_app().root.ids.home_screen.ids.mapview
-        mapview.center_on(latitude, longitude)
+        try:
+            latitude = result["items"][0]["position"]["lat"]
+            longitude = result["items"][0]["position"]["lng"]
+            mapview = App.get_running_app().root.ids.home_screen.ids.mapview
+            mapview.center_on(latitude, longitude)
+        except Exception as e:
+            print("Error", e)
 
         #Add exception
 
@@ -52,6 +55,9 @@ class HomeScreen(Screen):
     def callback(self, *args):
         address = self.ids.address.text
         self.geocode_get_lat_lon(address)
+
+    def popup_error(self,error):
+        pass
 
 class MainApp(MDApp):
     """App"""
