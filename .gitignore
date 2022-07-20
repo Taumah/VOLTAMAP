@@ -9,3 +9,5 @@ src/main/app/bin/
 **/.buildozer
 /src/main/app/.buildozer
 /src/main/app/.buildozer/
+/src/main/bin/
+
