@@ -22,3 +22,15 @@ create table stz_tomtomAPI(
     insert_time timestamp default current_timestamp
 );
 
+
+
+ALTER TABLE stz_googleAPI
+ADD icon varchar(256);
+
+ALTER TABLE stz_googleAPI
+ADD station_name varchar(256);
+
+ALTER TABLE stz_googleAPI
+ADD json_data TEXT;
+
+

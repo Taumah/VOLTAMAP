@@ -11,3 +11,4 @@ src/main/app/bin/
 /src/main/app/.buildozer/
 /src/main/bin/
 
+conf.json

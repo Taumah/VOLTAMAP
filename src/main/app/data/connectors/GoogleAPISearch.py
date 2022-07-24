@@ -44,7 +44,7 @@ class GoogleAPISearch:
         loc = f"{lat}%2C{lon}"
         url = (
             self.base_url + f"/nearbysearch/json?location={loc}"
-            "&radius=5000&keyword=charging electric vehicule station&key=" + self.key
+            "&radius=1000&keyword=charging electric vehicule station&key=" + self.key
         )
 
         payload = {}
