@@ -1,4 +1,8 @@
+"""
+New data source added at the end of the project
+"""
 import csv
+# pylint: disable=import-error
 
 from data.connectors.connectors import RDSconnector
 
@@ -7,7 +11,8 @@ LON = 43
 LAT = 44
 
 
-def insertLine(line):
+def insert_line(line):
+    """insert into database"""
     conn.execute_insert(
         "INSERT INTO stz_googleAPI ( latitude , longitude ,station_name) "
         "VALUES (%s, %s, %s)",
@@ -16,18 +21,19 @@ def insertLine(line):
 
 
 def main():
+    """main bloc"""
     with open(
         "../../../../data/gireve/consolidation-etalab-schema-irve-v-2.0.2-20220723.csv",
         "r",
         encoding="utf-8",
-    ) as dataFile:
+    ) as data_file:
 
-        headers = dataFile.readline()
-        csvReader = csv.reader(dataFile)
+        data_file.readline()
+        csv_reader = csv.reader(data_file)
         count = 0
-        for line in csvReader:
+        for line in csv_reader:
 
-            insertLine(line)
+            insert_line(line)
             count += 1
         print(count)
 

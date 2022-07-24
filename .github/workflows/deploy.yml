@@ -15,7 +15,7 @@ jobs:
       - name : Format Code
         run : black src/
       - name: Lint Code
-        run : pylint src/
+        run : pylint src/main/<data
 #  replace-tokens:
 #    runs-on: ubuntu-latest
 #    steps:

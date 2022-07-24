@@ -2,6 +2,8 @@
     This file contains the main function,
     used for the whole project
 """
+# pylint: disable=import-error
+
 import json
 import time
 
@@ -21,7 +23,7 @@ def update_checkpoint(string, target_table):
     update checkpoint
     """
     with open(
-        f"./checkpoint/{target_table}/fetch_grid.json", "w", encoding="utf-8"
+            f"./checkpoint/{target_table}/fetch_grid.json", "w", encoding="utf-8"
     ) as file:
         json.dump(
             string,
@@ -37,7 +39,7 @@ def grid_fetch(target_table):
     conn = RDSconnector("../../../conf.json")
 
     with open(
-        f"./checkpoint/{target_table}/fetch_grid.json", "r", encoding="utf-8"
+            f"./checkpoint/{target_table}/fetch_grid.json", "r", encoding="utf-8"
     ) as file:
         string = json.load(file)
     bounding_box = (
@@ -61,11 +63,11 @@ def grid_fetch(target_table):
     origin_insert_count = insert_count = 50_000
 
     while (
-        string["coordinates"]["current"]["lon"] > string["coordinates"]["dest"]["lon"]
+            string["coordinates"]["current"]["lon"] > string["coordinates"]["dest"]["lon"]
     ):
         while (
-            string["coordinates"]["current"]["lat"]
-            < string["coordinates"]["dest"]["lat"]
+                string["coordinates"]["current"]["lat"]
+                < string["coordinates"]["dest"]["lat"]
         ):
             print(
                 string["coordinates"]["current"]["lat"] / precision,
@@ -94,12 +96,13 @@ def grid_fetch(target_table):
 
 
 def add_suspicious_point(station):
+    """add line to the dense area files"""
     lat = station["geometry"]["location"]["lat"]
     lng = station["geometry"]["location"]["lng"]
     name = station["name"]
     place_id = station["place_id"]
-    with open(f"./checkpoint/googleAPI/dense_places.csv", "a") as file:
-        file.write("%s,%s,%s,%s\n" % (place_id, lat, lng, name))
+    with open("./checkpoint/googleAPI/dense_places.csv", "a", encoding="utf-8") as file:
+        file.write(f"{place_id}, {lat}, {lng}, {name}\n")
 
 
 def coordinates_insert(conn, lat, lon, table):
@@ -131,14 +134,15 @@ def coordinates_insert(conn, lat, lon, table):
                 f"station_name=%s, "
                 f"json_data=%s "
                 f"where api_id=%s",
-                params=(lat, lng, icon, name, station.__str__(), station["place_id"]),
+                params=(lat, lng, icon, name, str(station), station["place_id"]),
             )
         else:
             print(f"inserting {station['place_id']}")
             conn.execute_insert(
-                f"insert into stz_{table}(id, api_id , latitude, longitude, icon , station_name, json_data) "
+                f"insert into stz_{table}"
+                f"(id, api_id , latitude, longitude, icon , station_name, json_data) "
                 f"values(null,%s,%s,%s,%s,%s,%s)",
-                params=(station["place_id"], lat, lng, icon, name, station.__str__()),
+                params=(station["place_id"], lat, lng, icon, name, str(station)),
             )
 
     print(len(already_known), "stations registered")
@@ -153,9 +157,9 @@ def one_fetch():
 
     # google_api = GoogleAPISearch()
     # dic = json.loads(google_api.get_nearby_station())
-    g = geocoder.ip("me")
-    lat = g.latlng[0]
-    lon = g.latlng[1]
+    geo = geocoder.ip("me")
+    lat = geo.latlng[0]
+    lon = geo.latlng[1]
     conn = RDSconnector("../../../conf.json")
 
     coordinates_insert(conn, lat, lon, "googleAPI")
