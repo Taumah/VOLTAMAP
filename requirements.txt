@@ -13,5 +13,8 @@ pymysql
 geocoder
 Kivy
 kivymd
+kivy_garden.mapview
+buildozer
 plyer
 py-androidbuild
+sklearn

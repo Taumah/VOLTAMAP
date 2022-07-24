@@ -2,69 +2,63 @@
 #:include homemapview.kv
 
 <HomeScreen>:
-
+    name: 'homescreen'
     MDBoxLayout:
         orientation : "vertical"
         md_bg_color: 1, 1, 1, 1
         MDBoxLayout:
             adaptive_height: True
-            MDIconButton:
-                icon: 'magnify'
-            MDTextField:
+            padding : "20dp"
+
+            MDTextFieldRound:
+                id : address
                 hint_text: 'Search EV charging station'
-                icon_left: "search"
-                pos_hint:{'center_x': 1,'center_y': .5}
+                pos_hint:{'center_x': 1,'center_y': 0.5}
                 size_hint: 1, None
+                normal_color: 1, 1, 1, 1 # color display
+                color_active: 1, 1, 1, 1 # color when click
+                line_color : 0, 1, 0, 1
+
+            MDIconButton:
+                icon: 'map-search'
+                on_press: root.callback(self.text)
+                valign: 'center'
+                halign: 'center'
 
         HomeMapView:
+            id: mapview
             pos_hint: {"top": .795, "left": 1}
             size_hint: 1, .695
-            id: mapview
 
-        # Bottom NavBar
-        NavBar:
-            id: navbar
-            size_hint: .85, .1
-            pos_hint: {"center_x": .5, "center_y": .1}
-            elevation: 10
-            md_bg_color: 1,1,1,1
-            radius: [16]
-            width: self.width
 
-            MDGridLayout:
-                cols: 4
-                size_hint_x: .9
-                spacing : 8
-                pos_hint: {"center_x": 0.5, "center_y": 0.5}
-                AnchorLayout:
-                    MDIconButton:
-                        id: nav_icon1
-                        icon: "map"
-                        ripple_scale: 0
-                        user_font_size: "30sp"
-                        theme_text_color: "Custom"
-                        text_color: 0, 0, 0, 1
-                AnchorLayout:
-                    MDIconButton:
-                        id: nav_icon2
-                        icon: "transit-connection-variant"
-                        ripple_scale: 0
-                        user_font_size: "30sp"
-                        theme_text_color: "Custom"
-                        text_color: 0, 0, 0, 1
-                AnchorLayout:
-                    MDIconButton:
-                        id: nav_icon3
-                        icon: "account-group"
-                        ripple_scale: 0
-                        user_font_size: "30sp"
-                        theme_text_color: "Custom"
-                        text_color: 0, 0, 0, 1
-                AnchorLayout:
-                    MDIconButton:
-                        id: nav_icon4
-                        icon: "account"
-                        ripple_scale: 0
-                        user_font_size: "30sp"
-                        theme_text_color: "Custom"
-                        text_color: 0, 0, 0, 1
+    # Bottom NavBar
+    NavBar:
+        id: navbar
+        size_hint: .85, .1
+        pos_hint: {"center_x": .5, "center_y": .1}
+        elevation: 10
+        md_bg_color: 1,1,1,1
+        radius: [16]
+        width: self.width
+
+        MDGridLayout:
+            cols: 4
+            size_hint_x: .9
+            spacing : 8
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            AnchorLayout:
+                MDIconButton:
+                    id: nav_icon1
+                    icon: "map"
+                    ripple_scale: 0
+                    user_font_size: "30sp"
+                    theme_text_color: "Custom"
+                    text_color: 0, 0, 0, 1
+            AnchorLayout:
+                MDIconButton:
+                    id: nav_icon2
+                    icon: "transit-connection-variant"
+                    ripple_scale: 0
+                    user_font_size: "30sp"
+                    theme_text_color: "Custom"
+                    text_color: 0, 0, 0, 1

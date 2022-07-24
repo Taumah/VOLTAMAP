@@ -7,20 +7,22 @@ from kivy.animation import Animation
 class GpsBlinker(MapMarker):
     """Class GpsBlinker"""
 
-    def __init__(self):
-        self.blink_size = None
-        self.outer_opacity = None
+    def __init__(self, **kwargs):
+        super().__init__()
+        self.blink_size = self.default_blink_size
+        self.outer_opacity = 1
 
     def blink(self):
-        """on hover action"""
-        # Animation that changes the blink size and opacity
+        """
+        Function Animation that changes blink size and opacity for animate the blink
+        """
         anim = Animation(outer_opacity=0, blink_size=50)
         # When the animation completes, reset the animation, then repeat
         anim.bind(on_complete=self.reset)
         anim.start(self)
 
-    def reset(self, _):
-        """off hover action"""
-        self.outer_opacity = 1
-        self.blink_size = self.default_blink_size
+    def reset(self, *args):
+        """
+        Function to reset
+        """
         self.blink()

@@ -4,4 +4,11 @@
 **/.pytest_cache
 **/.DS_Store
 src/main/app/mapView.*
+src/main/app/cache/
+src/main/app/bin/
+**/.buildozer
+/src/main/app/.buildozer
+/src/main/app/.buildozer/
+/src/main/bin/
+
 conf.json
