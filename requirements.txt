@@ -5,10 +5,11 @@ pylint
 flask
 Jinja2
 requests
-black==22.3.0
-pytest==7.1.2
+black
+
+pytest
 click>=8.0.0
-PyMySQL
+pymysql
 geocoder
 Kivy
 kivymd

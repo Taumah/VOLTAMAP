@@ -15,7 +15,21 @@ jobs:
       - name : Format Code
         run : black src/
       - name: Lint Code
-        run : pylint src/
-#      - name: Test Code
-#        run : pytest src/test/data/test.py ; \
-#              pytest src/test/web_app/test.py
+        run : pylint src/main/data
+#  replace-tokens:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: List tokens
+#        run : echo "${{ secrets.GOOGLE_API_KEY }} - ${{ secrets.TOMTOM_API_KEY }} - ${{ secrets.RDS_CONF_PWD }}"
+#      - name: Replace tokens
+#        uses: cschleiden/replace-tokens@v1
+#        with:
+#          files: '["**/*.json"]'
+#        env:
+#          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+#          TOMTOM_API_KEY: ${{ secrets.TOMTOM_API_KEY }}
+#          RDS_CONF_PWD: ${{ secrets.RDS_CONF_PWD }}
+#
+##      - name: Test Code
+##        run : pytest src/test/data/test.py ; \
+##              pytest src/test/web_app/test.py
