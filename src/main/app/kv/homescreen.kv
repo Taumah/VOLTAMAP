@@ -15,6 +15,7 @@
                 hint_text: 'Search EV charging station'
                 pos_hint:{'center_x': 1,'center_y': 0.5}
                 size_hint: 1, None
+                halign: "left"
                 normal_color: 1, 1, 1, 1 # color display
                 color_active: 1, 1, 1, 1 # color when click
                 line_color : 0, 1, 0, 1
@@ -23,8 +24,8 @@
             MDIconButton:
                 icon: 'map-search'
                 on_press: root.callback(self.text)
-                valign: 'center'
-                halign: 'center'
+                halign: "right"
+
 
         HomeMapView:
             id: mapview
