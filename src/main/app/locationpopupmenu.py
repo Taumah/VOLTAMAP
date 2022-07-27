@@ -12,21 +12,20 @@ class LocationPopupMenu(MDDialog):
         super().__init__()
 
         # Set up the headers
-        headers = "id,Latitude,Longitude,Nom de la station"
+        headers = "Latitude,Longitude,Nom de la station"
         headers = headers.split(',')
 
-        #Popmenu content
+        # Popmenu content
         self.dialog = MDDialog(
-            text = str(headers[0])+ " : " + str(market_data[0]) +"\n"+
-            str(headers[1])+ " : " + str(market_data[1]) +"\n"+
-            str(headers[2])+ " : " + str(market_data[2]) +"\n"+
-            str(headers[3])+ " : " + str(market_data[3]),
+            text=str(headers[2]) + " : " + str(market_data[2]) + "\n" +
+                 str(headers[0]) + " : " + str(market_data[0]) + "\n" +
+                 str(headers[1]) + " : " + str(market_data[1]),
 
-            buttons =
+            buttons=
             [
                 MDRaisedButton(
                     text="Fermer",
-                    on_press = self.close_popup,
+                    on_press=self.close_popup,
                 )
             ],
         )
@@ -37,4 +36,3 @@ class LocationPopupMenu(MDDialog):
         Function to close the popup
         """
         self.dialog.dismiss()
-
