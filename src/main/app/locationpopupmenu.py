@@ -18,8 +18,8 @@ class LocationPopupMenu(MDDialog):
         # Popmenu content
         self.dialog = MDDialog(
             text=str(headers[2]) + " : " + str(market_data[3]) + "\n" +
-                 str(headers[0]) + " : " + str(market_data[0]) + "\n" +
-                 str(headers[1]) + " : " + str(market_data[1]),
+                 str(headers[0]) + " : " + str(market_data[1]) + "\n" +
+                 str(headers[1]) + " : " + str(market_data[2]),
 
             buttons=
             [
