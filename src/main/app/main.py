@@ -48,6 +48,8 @@ class HomeScreen(Screen):
             longitude = result["items"][0]["position"]["lng"]
             mapview = App.get_running_app().root.ids.home_screen.ids.mapview
             mapview.center_on(latitude, longitude)
+            App.get_running_app().root.ids.home_screen.ids.mapview.zoom = 15
+
         except Exception as error:
             print("Error", error)
 
@@ -69,6 +71,10 @@ class HomeScreen(Screen):
         """
         address = self.ids.address.text
         self.geocode_get_lat_lon(address)
+
+    def check(self):
+        text = self.ids.address.text
+        print("You have enter : ", text)
 
 
 class MainApp(MDApp):
