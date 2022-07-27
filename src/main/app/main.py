@@ -49,6 +49,7 @@ class HomeScreen(Screen):
             mapview = App.get_running_app().root.ids.home_screen.ids.mapview
             mapview.center_on(latitude, longitude)
             App.get_running_app().root.ids.home_screen.ids.mapview.zoom = 15
+
         except Exception as error:
             print("Error", error)
 

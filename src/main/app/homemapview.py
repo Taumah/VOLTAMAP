@@ -45,12 +45,6 @@ class HomeMapView(MapView):
         app.cursor.execute(sql_statement)
         markets = app.cursor.fetchall()
 
-        # for i in range(len(markets)):
-        #     x = list(markets[i])
-        #     if x[3] is None:
-        #         x[3] = "Pas de donnée"
-        #     markets[i] = tuple(x)
-
         print("nombre de marker", len(markets))
         self.reset_window()
 

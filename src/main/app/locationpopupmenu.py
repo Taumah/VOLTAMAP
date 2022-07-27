@@ -26,6 +26,7 @@ class LocationPopupMenu(MDDialog):
                 MDRaisedButton(
                     text="Fermer",
                     on_press=self.close_popup,
+
                 )
             ],
         )
