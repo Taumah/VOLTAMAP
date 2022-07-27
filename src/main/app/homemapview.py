@@ -37,18 +37,19 @@ class HomeMapView(MapView):
     def get_markets_in_fov(self, *args):
         """display marker depending on zoom state"""
         # Get reference to main app and the database cursor
-
-        # TODO erase all current markers
-        # TODO under 200 elements : display markers
-        # TODO under 200 elements : display markers
-        # TODO faire un petit ratio afficher plus de cluster quand dezoomer
         min_lat, min_lon, max_lat, max_lon = self.get_bbox()
         app = App.get_running_app()
-        sql_statement = "SELECT id,latitude,longitude FROM stz_googleAPI WHERE longitude > %s AND longitude < %s AND " \
+        sql_statement = "SELECT id,latitude,longitude,station_name FROM stz_googleAPI WHERE longitude > %s AND longitude < %s AND " \
                         "latitude > %s AND latitude < %s " % (min_lon, max_lon, min_lat, max_lat)
         # -3.0435056, 8.3004027, 42.2876432, 51.0482878)
         app.cursor.execute(sql_statement)
         markets = app.cursor.fetchall()
+
+        # for i in range(len(markets)):
+        #     x = list(markets[i])
+        #     if x[3] is None:
+        #         x[3] = "Pas de donnée"
+        #     markets[i] = tuple(x)
 
         print("nombre de marker", len(markets))
         self.reset_window()

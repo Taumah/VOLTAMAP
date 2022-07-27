@@ -12,14 +12,16 @@ class LocationPopupMenu(MDDialog):
         super().__init__()
 
         # Set up the headers
-        headers = "id,latitude,longitude"
+        headers = "id,Latitude,Longitude,Nom de la station"
         headers = headers.split(',')
 
         #Popmenu content
         self.dialog = MDDialog(
             text = str(headers[0])+ " : " + str(market_data[0]) +"\n"+
             str(headers[1])+ " : " + str(market_data[1]) +"\n"+
-            str(headers[2])+ " : " + str(market_data[2]),
+            str(headers[2])+ " : " + str(market_data[2]) +"\n"+
+            str(headers[3])+ " : " + str(market_data[3]),
+
             buttons =
             [
                 MDRaisedButton(

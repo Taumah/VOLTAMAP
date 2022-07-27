@@ -31,7 +31,7 @@ class KnnClustering:
             return
         for i in range(centroids):
             base_marker = random.choice(markers)
-            self.centroids.append((i, base_marker[SQL_LAT], base_marker[SQL_LON]))
+            self.centroids.append((i, base_marker[SQL_LAT], base_marker[SQL_LON], 0))
 
     def knn_clustering(self):
         """
@@ -50,16 +50,25 @@ class KnnClustering:
                     if curr_distance < min_dist:
                         min_dist = curr_distance
                         min_index = index
-                        #print(f"min_index {min_index}")
+                        # print(f"min_index {min_index}")
                 group_markers[min_index].append(marker)
 
             for index, group in enumerate(group_markers):
                 if not group:
                     continue
-                # print(f"index {index}")# 
-                new_coords = np.array(group).mean(axis=0)
+
+                # print(f"index {index}")#
+                # print(np.array(group).shape)
+                # print(np.array(group)[:10, 1:3])
+                # print(np.array(group)[0])
+                # used_group = np.array(np.array(group))
+
+                # new_coords = used_group.mean(axis=0)
+                new_coords = np.array([[row[1],row[2]] for row in group]).mean(axis=0)
+
+
                 # print(f"new_coords {new_coords} and type {type(new_coords)}")
-                self.centroids[index] = (index, new_coords[SQL_LAT], new_coords[SQL_LON])
+                self.centroids[index] = (index, new_coords[0], new_coords[1], len(group))
         # print(f"self : {self}")
         return self.centroids
 
